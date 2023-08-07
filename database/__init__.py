@@ -4,10 +4,11 @@ import time
 from peewee import SqliteDatabase, Model, CharField, ForeignKeyField, IntegerField, BooleanField, AutoField, fn, chunked
 from peewee import MySQLDatabase
 
+""" 使用sqlite数据库 """
 db = SqliteDatabase('sqlite.db')  # 连接sqlite数据库
 
-""" 链接Mysql"""
-#db = MySQLDatabase(host='db', port=3306, user='root', passwd='passwd', database='Web')
+""" 使用Mysql"""
+# db = MySQLDatabase(host='db', port=3306, user='root', passwd='passwd', database='Web')
 
 
 class BaseModel(Model):
@@ -16,9 +17,12 @@ class BaseModel(Model):
 
 
 class Problem(BaseModel):
+    """
+    工单
+    """
     id = AutoField(primary_key=True)
     rid = CharField(index=True)
-    establish_id = CharField(null=True,index=True)
+    establish_id = CharField(null=True, index=True)
     project_name = CharField(null=True)
     user_name = CharField(null=True)
     module = CharField()
@@ -36,7 +40,7 @@ class Problem(BaseModel):
 
 
 class ProblemAtt(BaseModel):
-    """
+    """ 附件
     rid :               关联表单rid
     ip_time :           上传时间
     filename:           文件名
@@ -50,6 +54,9 @@ class ProblemAtt(BaseModel):
 
 
 class ProblemMessage(BaseModel):
+    """
+    工单消息
+    """
     id = AutoField(primary_key=True)
     problem = ForeignKeyField(Problem, backref='Message')
     up_time = IntegerField(default=lambda: int(time.time()))
@@ -61,6 +68,7 @@ class ProblemMessage(BaseModel):
 
 class User(BaseModel):
     """
+    用户
     uid :               跳转页传标识
     u_token :           cookie
     """
@@ -71,6 +79,7 @@ class User(BaseModel):
 
 class ManageUser(BaseModel):
     """
+    管理员用户
     name :              姓名|登录名
     passwd :            登录密码|MD5
     m_token :           cookie
@@ -87,12 +96,13 @@ def create_table():
     """
     db.connect()
     db.create_tables([Problem, ProblemAtt, User, ManageUser, ProblemMessage], safe=True)
+    # 创建默认管理员
     ManageUser.create(name='超管', passwd='123456')
     db.close()
 
 
 def recover():
-    """还原数据库默认设置"""
+    """清空数据库"""
     db.drop_tables([Problem, ProblemAtt, User, ManageUser, ProblemMessage])
     db.close()
     create_table()

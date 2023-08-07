@@ -3,10 +3,14 @@ import database.api as api
 import mytools
 
 bp = Blueprint('S', __name__)
+"""
+后台路由
+"""
 
 
 @bp.route('/Login', methods=['POST', 'GET'])
 def Login():
+    """登录"""
     if request.method == 'GET':
         m_token = request.cookies.get('m_token')
         manage = api.form_token_get_manege(m_token)
@@ -21,8 +25,10 @@ def Login():
 
         stats = api.manage_login(name=name, pwd=pwd)
         if not stats:
+            """用户名或密码错误时"""
             return render_template('S_L.html', msg='999')
         else:
+            """正确"""
             manage = api.get_manege(name=name)
             manage.m_token = mytools.get_m_token(name)
             manage.save()
@@ -34,6 +40,7 @@ def Login():
 
 @bp.route('/logout')
 def logout():
+    """注销"""
     resp = make_response(redirect('/S'))
     resp.delete_cookie('m_token')
     return resp
@@ -72,6 +79,7 @@ def my_processing():
 
 @bp.route('/view/<rid>')
 def view(rid):
+    """工单处理视图"""
     m_token = request.cookies.get('m_token')
     if m_token is not None:
         user = api.form_token_get_manege(m_token)
@@ -90,6 +98,7 @@ def view(rid):
 
 @bp.route('/pull/<rid>', methods=["POST"])
 def s_r_pull(rid):
+    """修改工单状态"""
     p = api.get_problem(rid)
     status = request.form.get('status')
     assign = request.form.get('assign')
@@ -108,6 +117,7 @@ def s_r_pull(rid):
 
 @bp.route('/search')
 def search():
+    """搜索"""
     search_text = request.args.get('search')
     print(search_text)
     return render_template('S_ALL.html', plist=api.search_problem(search_text), tite=f'搜索 {search_text}')

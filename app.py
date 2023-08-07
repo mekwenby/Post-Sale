@@ -80,6 +80,7 @@ def hello_uid(uid=None):
 
 @app.route('/register', methods=["POST", "GET"])
 def register():
+    """创建工单路由"""
     if request.method == 'GET':
         u_token = request.cookies.get('u_token')
         if u_token is not None:
@@ -111,6 +112,7 @@ def palls():
 
 @app.route('/my')
 def my_all():
+    """我的工单路由"""
     u_token = request.cookies.get('u_token')
     if u_token is not None:
         # print(u_token)
@@ -128,6 +130,7 @@ def my_all():
 
 @app.route('/view/<rid>')
 def view(rid):
+    """查看工单路由"""
     u_token = request.cookies.get('u_token')
     if u_token is not None:
         user = api.from_u_token_user(u_token)
@@ -142,6 +145,7 @@ def view(rid):
 
 @app.route('/_view/<rid>')
 def _view(rid):
+    """查看工单**测试**"""
     u_token = request.cookies.get('u_token')
     if u_token is not None:
         user = api.from_u_token_user(u_token)
@@ -156,6 +160,7 @@ def _view(rid):
 
 @app.route('/upload_test', methods=['POST'])
 def upload_test():
+    """文件上传"""
     rid = request.form.get('rid')
     up_name = request.form.get('up_name')
     if up_name is None:
@@ -183,9 +188,12 @@ def upload_test():
         return '没有选择文件'
 
 
-# 前台消息发送
 @app.route('/Message', methods=['POST'])
 def Message():
+    """
+    前端消息发送
+    :return:
+    """
     rid = request.form.get('rid')
     uid = request.form.get('author')
     text = request.form.get('text')
@@ -196,9 +204,9 @@ def Message():
     return jsonify(response_data)
 
 
-# 后台消息发送
 @app.route('/SMessage', methods=['POST'])
 def SMessage():
+    """Manage消息发送"""
     rid = request.form.get('rid')
     uid = request.form.get('author')
     text = request.form.get('text')
@@ -211,12 +219,14 @@ def SMessage():
 
 @app.route('/search')
 def search():
+    """搜索"""
     search_text = request.args.get('search')
     return render_template('all.html', plist=api.search_problem(search_text))
 
 
 @app.route('/S')
 def support():
+    """后台登录入口"""
     return redirect('/S/Login')
 
 
