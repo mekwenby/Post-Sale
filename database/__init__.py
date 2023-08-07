@@ -8,6 +8,8 @@ from peewee import MySQLDatabase
 db = SqliteDatabase('sqlite.db')  # 连接sqlite数据库
 
 """ 使用Mysql"""
+
+
 # db = MySQLDatabase(host='db', port=3306, user='root', passwd='passwd', database='Web')
 
 
@@ -74,7 +76,7 @@ class User(BaseModel):
     """
     id = AutoField(primary_key=True)
     uid = CharField(index=True)
-    u_token = CharField(null=True)
+    u_token = CharField(null=True, index=True)
 
 
 class ManageUser(BaseModel):
@@ -87,7 +89,7 @@ class ManageUser(BaseModel):
     id = AutoField(primary_key=True)
     name = CharField()
     passwd = CharField()
-    m_token = CharField(default='0')
+    m_token = CharField(default='0', index=True)
 
 
 def create_table():
