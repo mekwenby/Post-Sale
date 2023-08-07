@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    {# 移动端兼容 #}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+
+        {% block title %}
+            Post-Sale-S
+        {% endblock %}
+    </title>
+
+    {{ bootstrap.load_css() }}
+    {{ bootstrap.load_js() }}
+
+    <style>
+        {% block style %}
+        {% endblock %}
+    </style>
+    <link rel="stylesheet" href="/static/css/select2.min.css">
+    <link rel="stylesheet" href="/static/css/my-css.css">
+
+</head>
+<body>
+{# body 区域 #}
+<div class="container-lg">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">生产信息化技术支持中心-后台</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#"><span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/S/processing">待处理工单</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/S/myprocessing">指派我的工单</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/S/all">全部工单</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">系统设置</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/S/logout">退出</a>
+                </li>
+
+            </ul>
+            <form class="form-inline my-2 my-lg-0" action="/S/search">
+                <input class="form-control mr-sm-2" type="search" placeholder="按标题搜索" aria-label="Search3" name="search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+            </form>
+        </div>
+    </nav>
+    {% block body %}
+
+    {% endblock %}
+</div>
+</body>
+{# script 区域 #}
+{% block script %}
+{% endblock %}
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    {# 移动端兼容 #}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>
+
+        {% block title %}
+            Post-Sale
+        {% endblock %}
+    </title>
+
+    {{ bootstrap.load_css() }}
+    {{ bootstrap.load_js() }}
+
+    <style>
+        {% block style %}
+        {% endblock %}
+    </style>
+    <link rel="stylesheet" href="/static/css/select2.min.css">
+    <link rel="stylesheet" href="/static/css/my-css.css">
+
+</head>
+<body>
+{# body 区域 #}
+<div class="container-xl">
+
+    {% block body %}
+
+    {% endblock %}
+</div>
+</body>
+{# script 区域 #}
+{% block script %}
+{% endblock %}
+</html>

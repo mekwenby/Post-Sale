@@ -1,0 +1,48 @@
+{% extends 'S_Base.html' %}
+
+{% block title %}
+    {{ tite }}
+{% endblock %}
+{% block body %}
+
+    {% if plist|length > 0 %}
+        <table class="table table-bordered">
+            <tr>
+                <td>单流水号</td>
+                <td>创建部门</td>
+                <td>创建时间</td>
+                <td>问题模块</td>
+                <td style="width: 70px">指派</td>
+                <td style="width: 70px">状态</td>
+            </tr>
+            <tbody>
+            {% for p in plist %}
+                <tr>
+                    <td style="width: 190px;font-size: 14px">{{ p.rid }}</td>
+                    <td>{{ p.project_name }}:{{ p.user_name }}</td>
+                    <td style="width: 170px">{{ p.generate_time|time_ftm }}</td>
+                    <td>{{ p.module }}</td>
+                    <td>{{ p.solve_name }}</td>
+                    {% if p.solve == '已完成' %}
+                        <td style="font-size: 14px;;color: #00d9ff"
+                            onclick="window.location.href = '/S/view/{{ p.rid }}';">{{ p.solve }}</td>
+                    {% else %}
+                        <td style="font-size: 14px"
+                            onclick="window.location.href = '/S/view/{{ p.rid }}';">{{ p.solve }}
+                        </td>
+                    {% endif %}
+
+                </tr>
+
+
+
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+    {% endif %}
+
+
+
+{% endblock %}

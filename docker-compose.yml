@@ -1,0 +1,39 @@
+version: '3.7'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: always
+    container_name: dms
+    links:
+      - db
+    ports:
+      - "12309:12309"
+
+  db:
+    image: mariadb:10.5
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: passwd
+      MYSQL_DATABASE: Web
+
+    volumes:
+      - maria_db:/var/lib/mysql
+      - maria_conf:/etc/mysql
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    restart: always
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: passwd
+    ports:
+      - "12310:80"
+    depends_on:
+      - db
+
+volumes:
+  maria_db:
+  maria_conf:
