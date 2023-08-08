@@ -35,7 +35,7 @@ def time_ftm(value):
 def hello_world():
     uid = request.args.get('uid')
     u_token = request.cookies.get('u_token')
-    print(uid, u_token)
+    #print(uid, u_token)
     if uid is None and u_token is None:  # 没有uid也没有cookie
         uid = 'Guest'
         user = api.get_user(uid)
@@ -84,7 +84,7 @@ def register():
     if request.method == 'GET':
         u_token = request.cookies.get('u_token')
         if u_token is not None:
-            print(u_token)
+            #print(u_token)
             user = api.from_u_token_user(u_token)
             return render_template('register.html', rid=mytools.get_problem_id(), user=user)
         else:
@@ -98,7 +98,7 @@ def register():
         description = request.form['description']
         problem_type = request.form.get('problem_type')
         uid = request.form.get('uid')
-        print(rid)
+        #print(rid)
         api.save_problem(rid=rid, project_name=department, user_name=name, module=module, text=description,
                          ptype=problem_type, uid=uid)
 
@@ -136,7 +136,7 @@ def view(rid):
         user = api.from_u_token_user(u_token)
         p = api.get_problem(rid)
         p_list = api.get_problem_att(rid)
-        print(user.uid, p.rid, p_list)
+        #print(user.uid, p.rid, p_list)
         return render_template('_View.html', p=p, p_list=p_list, user=user)
 
     else:
@@ -151,7 +151,7 @@ def _view(rid):
         user = api.from_u_token_user(u_token)
         p = api.get_problem(rid)
         p_list = api.get_problem_att(rid)
-        print(user.uid, p.rid, p_list)
+        #print(user.uid, p.rid, p_list)
         return render_template('_View.html', p=p, p_list=p_list, user=user)
 
     else:
@@ -194,11 +194,12 @@ def Message():
     前端消息发送
     :return:
     """
+    # print(request.cookies.get('u_token'))
     rid = request.form.get('rid')
     uid = request.form.get('author')
     text = request.form.get('text')
 
-    print(f'rid:{rid}  uid:{uid}  text:{text}')
+    # print(f'rid:{rid}  uid:{uid}  text:{text}')
     state = api.add_problem_message(rid=rid, uid=uid, text=text)
     response_data = {"success": state}
     return jsonify(response_data)
@@ -207,11 +208,12 @@ def Message():
 @app.route('/SMessage', methods=['POST'])
 def SMessage():
     """Manage消息发送"""
+    # print(request.cookies.get('m_token'))
     rid = request.form.get('rid')
     uid = request.form.get('author')
     text = request.form.get('text')
 
-    print(f'rid:{rid}  uid:{uid}  text:{text}')
+    # print(f'rid:{rid}  uid:{uid}  text:{text}')
     state = api.add_problem_Smessage(rid=rid, uid=uid, text=text)
     response_data = {"success": state}
     return jsonify(response_data)

@@ -6,7 +6,7 @@ services:
       context: .
       dockerfile: Dockerfile
     restart: always
-    container_name: dms
+    container_name: webserver
     links:
       - db
     ports:

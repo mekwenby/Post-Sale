@@ -42,6 +42,7 @@ def Login():
 def logout():
     """注销"""
     resp = make_response(redirect('/S'))
+    # 删除Token
     resp.delete_cookie('m_token')
     return resp
 
@@ -49,7 +50,7 @@ def logout():
 @bp.route('/all')
 def spall():
     m_token = request.cookies.get('m_token')
-    if m_token is not None:
+    if m_token is not None:  # token 为空时
         return render_template('S_ALL.html', plist=api.get_all_problem(), tite='全部工单')
     else:
         return redirect('/S')
@@ -119,5 +120,5 @@ def s_r_pull(rid):
 def search():
     """搜索"""
     search_text = request.args.get('search')
-    print(search_text)
+    # print(search_text)
     return render_template('S_ALL.html', plist=api.search_problem(search_text), tite=f'搜索 {search_text}')
