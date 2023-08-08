@@ -211,3 +211,8 @@ def search_problem(text):
     )
     sorted_problems = query.order_by(Problem.generate_time.desc())
     return list(sorted_problems)
+
+
+def add_manage(name, passwd):
+    """添加Manege"""
+    ManageUser.create(name=name, passwd=passwd)

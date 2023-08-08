@@ -87,7 +87,7 @@ class ManageUser(BaseModel):
     m_token :           cookie
     """
     id = AutoField(primary_key=True)
-    name = CharField()
+    name = CharField(index=True)
     passwd = CharField()
     m_token = CharField(default='0', index=True)
 

@@ -46,8 +46,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/S/all">全部工单</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">系统设置</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                       aria-expanded="false">
+                        系统设置
+                    </a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" href="/S/ChangePassword">修改密码</a>
+                        <a class="dropdown-item" href="/S/addManage">添加Manage账号</a>
+                        {#
+                        <div class="dropdown-divider"></div>
+                        分割线 #}
+                    </div>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/S/logout">退出</a>
@@ -55,7 +65,8 @@
 
             </ul>
             <form class="form-inline my-2 my-lg-0" action="/S/search">
-                <input class="form-control mr-sm-2" type="search" placeholder="输入工单信息" aria-label="Search3" name="search">
+                <input class="form-control mr-sm-2" type="search" placeholder="输入工单信息" aria-label="Search3"
+                       name="search">
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
             </form>
         </div>

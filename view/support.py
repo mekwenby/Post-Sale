@@ -32,8 +32,9 @@ def Login():
             manage = api.get_manege(name=name)
             manage.m_token = mytools.get_m_token(name)
             manage.save()
-            response = make_response(redirect('/S/all'))
-            response.set_cookie(key='m_token', value=manage.m_token, max_age=int(60 * 60 * 16))
+            response = make_response(redirect('/S/processing'))
+            # cookie 有效期为 20小时 60秒*60分钟*20
+            response.set_cookie(key='m_token', value=manage.m_token, max_age=int(60 * 60 * 20))
 
             return response
 
@@ -122,3 +123,53 @@ def search():
     search_text = request.args.get('search')
     # print(search_text)
     return render_template('S_ALL.html', plist=api.search_problem(search_text), tite=f'搜索 {search_text}')
+
+
+@bp.route('/ChangePassword', methods=['POST', 'GET'])
+def change_password():
+    """
+    修改密码
+    原密码正确返回 True
+    """
+    m_token = request.cookies.get('m_token')
+    user = api.form_token_get_manege(m_token)
+    if request.method == 'GET' and user is not None:  # 判断用户Token是否失效
+        return render_template('ChangePassword.html')
+
+    elif request.method == 'POST' and user is not None:
+        # original new confirm
+        new = request.form.get('new')
+        original = request.form.get('original')
+        if user.passwd == original:  # 判断原密码是否正确
+            user.passwd = new
+            user.save()
+            """此处必须返回字符串,否则后端报错"""
+            return 'True'
+        else:
+            return 'False'
+
+    else:
+        return redirect('/logout')
+
+
+@bp.route('/addManage', methods=['POST', 'GET'])
+def add_manage():
+    m_token = request.cookies.get('m_token')
+    user = api.form_token_get_manege(m_token)
+    if request.method == 'GET' and user is not None:
+        return render_template('S_add_Manage.html')
+
+    elif request.method == 'POST' and user is not None:
+        # original new confirm
+        name = request.form.get('name')
+        passwd = request.form.get('passwd')
+        user = api.get_manege(name)
+        if user is None:
+            # 用户名不存在时创建
+            api.add_manage(name=name, passwd=passwd)
+            return 'True'
+        else:
+            return 'False'
+
+    else:
+        return redirect('/logout')
