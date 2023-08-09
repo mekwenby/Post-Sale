@@ -131,6 +131,8 @@
                                                   rows="2"></textarea>
 
                                     <div class="input-group-append" style="display: flex;">
+                                        <input type="hidden" name="message_length" value="{{ p.Message|length }}"
+                                               id="message_length">
                                         <button class="btn btn-primary" style="flex: 1;">发送</button>
                                     </div>
 
@@ -237,6 +239,7 @@
     <script src="/static/js/select2.min.js"></script>
 
     <script src="/static/js/upfile2.js"></script>
+    <script src="/static/js/messageserver.js"></script>
 
     <script>
         $(document).ready(function () {

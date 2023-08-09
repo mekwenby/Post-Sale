@@ -1,9 +1,12 @@
 import os
 from flask import Flask, redirect, render_template, request, make_response, jsonify
 from flask_bootstrap import Bootstrap4
+
+import database
 import mytools
 from database import api
 from view.support import bp as support_view
+from view.status import bp as status_view
 
 app = Flask(__name__)
 bootstrap = Bootstrap4(app=app)
@@ -12,6 +15,21 @@ bootstrap = Bootstrap4(app=app)
 app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 
 app.register_blueprint(support_view, url_prefix='/S')
+app.register_blueprint(status_view, url_prefix='/status')
+
+
+@app.before_request
+def _db_connect():
+    """请求开始时链接数据库"""
+    #print('db.connect')
+    database.db.connect()
+
+
+@app.teardown_request
+def _db_close(exc):
+    """请求结束时关闭数据库"""
+    if not database.db.is_closed():
+        database.db.close()
 
 
 @app.template_filter('time_ftm')
@@ -35,7 +53,7 @@ def time_ftm(value):
 def hello_world():
     uid = request.args.get('uid')
     u_token = request.cookies.get('u_token')
-    #print(uid, u_token)
+    # print(uid, u_token)
     if uid is None and u_token is None:  # 没有uid也没有cookie
         uid = 'Guest'
         user = api.get_user(uid)
@@ -84,7 +102,7 @@ def register():
     if request.method == 'GET':
         u_token = request.cookies.get('u_token')
         if u_token is not None:
-            #print(u_token)
+            # print(u_token)
             user = api.from_u_token_user(u_token)
             return render_template('register.html', rid=mytools.get_problem_id(), user=user)
         else:
@@ -98,7 +116,7 @@ def register():
         description = request.form['description']
         problem_type = request.form.get('problem_type')
         uid = request.form.get('uid')
-        #print(rid)
+        # print(rid)
         api.save_problem(rid=rid, project_name=department, user_name=name, module=module, text=description,
                          ptype=problem_type, uid=uid)
 
@@ -136,7 +154,7 @@ def view(rid):
         user = api.from_u_token_user(u_token)
         p = api.get_problem(rid)
         p_list = api.get_problem_att(rid)
-        #print(user.uid, p.rid, p_list)
+        # print(user.uid, p.rid, p_list)
         return render_template('_View.html', p=p, p_list=p_list, user=user)
 
     else:
@@ -151,7 +169,7 @@ def _view(rid):
         user = api.from_u_token_user(u_token)
         p = api.get_problem(rid)
         p_list = api.get_problem_att(rid)
-        #print(user.uid, p.rid, p_list)
+        # print(user.uid, p.rid, p_list)
         return render_template('_View.html', p=p, p_list=p_list, user=user)
 
     else:

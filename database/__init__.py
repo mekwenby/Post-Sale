@@ -5,12 +5,11 @@ from peewee import SqliteDatabase, Model, CharField, ForeignKeyField, IntegerFie
 from peewee import MySQLDatabase
 
 """ 使用sqlite数据库 """
-db = SqliteDatabase('sqlite.db')  # 连接sqlite数据库
+# db = SqliteDatabase('sqlite.db')  # 连接sqlite数据库
 
 """ 使用Mysql"""
 
-
-# db = MySQLDatabase(host='db', port=3306, user='root', passwd='passwd', database='Web')
+db = MySQLDatabase(host='db', port=3306, user='root', passwd='passwd', database='Web')
 
 
 class BaseModel(Model):
