@@ -308,3 +308,12 @@ code {
     background-color: #000000;
     color: #64ff5f;
 }
+
+.image-message {
+    max-width: 100%;
+    color: greenyellow;
+}
+
+.image-receiver-message {
+    background-color: greenyellow;
+}

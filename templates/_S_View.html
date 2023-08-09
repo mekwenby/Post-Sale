@@ -106,11 +106,19 @@
                                                     </div>
                                                 {% endif %}
                                             {% elif m.type == 'file' %}
-                                                <div class="alert mb-2 receiver-message">
-                                                    {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
-                                                    <br>
-                                                    {{ m.text|text_br|safe }}
-                                                </div>
+                                                {% if m.source == 'user' %}
+                                                    <div class="alert mb-2 alert-primary">
+                                                        {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
+                                                        <br>
+                                                        {{ m.text|text_br|safe }}
+                                                    </div>
+                                                {% else %}
+                                                    <div class="alert mb-2 receiver-message">
+                                                        {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
+                                                        <br>
+                                                        {{ m.text|text_br|safe }}
+                                                    </div>
+                                                {% endif %}
                                             {% endif %}
 
                                         {% endfor %}

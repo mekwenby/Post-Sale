@@ -28,11 +28,18 @@ def problem_init_message(rid):
 
 def upload_att_message(rid, file, up_name):
     """上传文件时生成消息"""
+    manage_name_list = [manage.name for manage in get_manage_list()]
+    source = 'user'
+    print(manage_name_list)
+    if up_name in manage_name_list:
+        source = 'manage'
     if Problem.get_or_none(rid=rid) is not None:
         if os.path.splitext(file)[-1] in ['.png', '.jpg', '.jpeg', '.webp']:  # 是图片的情况
-            ProblemMessage.create(problem=Problem.get(rid=rid), text=file, type='img', author=up_name)
+
+            ProblemMessage.create(problem=Problem.get(rid=rid), text=file, type='img', author=up_name, source=source)
         else:  # 不是图片
-            ProblemMessage.create(problem=Problem.get(rid=rid), text=f'已上传附件 {file}', type='file', author=up_name)
+            ProblemMessage.create(problem=Problem.get(rid=rid), text=f'已上传附件 {file}', type='file', author=up_name,
+                                  source=source)
 
 
 def save_problem(rid, project_name, user_name, module, ptype, text, uid):
