@@ -108,7 +108,7 @@ def s_r_pull(rid):
     p.solve = status
     if status == '已完成' or status == '关闭':
         p.submit = False
-        api.add_problem_Smessage(rid=rid, uid=assign, text=f"{assign} 将工单状态修改为已完成")
+        api.add_problem_Smessage(rid=rid, uid="System", text=f"{assign} 将工单状态修改为已完成")
     else:
         p.submit = True
 
