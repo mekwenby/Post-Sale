@@ -3,6 +3,7 @@ $(document).ready(function () {
     let message_length = $("#message_length").val();
     let rid = $("#rid").val();
     //console.log(rid);
+    var notificationSound = new Audio('/static/audio/notification.mp3');
 
     function refreshPage() {
         if (refreshing) {
@@ -13,7 +14,11 @@ $(document).ready(function () {
                 //console.log("请求发起成功!")
                 if (parseInt(serverLength) !== parseInt(message_length)) {
                     //console.log(serverLength, message_length)
-                    location.reload();
+                    notificationSound.play()
+                    setTimeout(() => {
+                        location.reload();
+                    }, 1500);
+
                 } else {
                     //console.log(serverLength, message_length)
                 }
