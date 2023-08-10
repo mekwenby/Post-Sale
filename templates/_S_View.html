@@ -73,7 +73,7 @@
                                     <!-- Messages will be displayed here -->
                                     <div class="alert mb-2 alert-primary">{{ p.generate_time|time_ftm }}&emsp;System:
                                         <br>
-                                        {{ p.text }}
+                                        {{ p.text|text_br|safe }}
                                     </div>
                                     {% if p.Message|length > 0 %}
                                         {% for m in p.Message %}
