@@ -165,6 +165,11 @@ def add_problem_message(rid, uid, text):
         problem.submit = True
         problem.solve = '再反馈'
         problem.save()
+
+    if problem.solve == '待回复':
+        problem.solve = '处理中'
+        problem.save()
+
     ProblemMessage.create(problem=problem, text=text, author=uid)  # 创建消息
     return True
 
