@@ -21,7 +21,7 @@ app.register_blueprint(status_view, url_prefix='/status')
 @app.before_request
 def _db_connect():
     """请求开始时链接数据库"""
-    #print('db.connect')
+    # print('db.connect')
     database.db.connect()
 
 
@@ -120,7 +120,7 @@ def register():
         api.save_problem(rid=rid, project_name=department, user_name=name, module=module, text=description,
                          ptype=problem_type, uid=uid)
 
-        return redirect('/my')
+        return redirect(f'/view/{rid}')
 
 
 @app.route('/all')

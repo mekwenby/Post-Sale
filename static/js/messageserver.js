@@ -3,7 +3,7 @@ $(document).ready(function () {
     let message_length = $("#message_length").val();
     let rid = $("#rid").val();
     //console.log(rid);
-    var notificationSound = new Audio('/static/audio/notification.mp3');
+    const notificationSound = new Audio('/static/audio/notification.mp3');
 
     function refreshPage() {
         if (refreshing) {

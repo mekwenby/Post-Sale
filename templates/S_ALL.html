@@ -25,10 +25,10 @@
                     <td>{{ p.solve_name }}</td>
                     {% if p.solve == '已完成' %}
                         <td style="font-size: 14px;;color: #00d9ff"
-                            onclick="window.location.href = '/S/view/{{ p.rid }}';">{{ p.solve }}</td>
+                            onclick="window.open('/S/view/{{ p.rid }}');">{{ p.solve }}</td>
                     {% else %}
                         <td style="font-size: 14px"
-                            onclick="window.location.href = '/S/view/{{ p.rid }}';">{{ p.solve }}
+                            onclick="window.open('/S/view/{{ p.rid }}');">{{ p.solve }}
                         </td>
                     {% endif %}
 
@@ -45,4 +45,7 @@
 
 
 
+{% endblock %}
+{% block script %}
+    <script src="/static/js/processing.js"></script>
 {% endblock %}
