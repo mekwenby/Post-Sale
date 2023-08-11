@@ -21,6 +21,7 @@ $(document).ready(function () {
                     // 工单变少时
                     //console.log('检测到工单变少了')
                     currentProcessing = data.processing;
+                    location.reload();
                 }
             });
         }, 3000);
