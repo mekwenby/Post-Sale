@@ -157,7 +157,10 @@ def add_manage():
     m_token = request.cookies.get('m_token')
     user = api.form_token_get_manege(m_token)
     if request.method == 'GET' and user is not None:
-        return render_template('S_add_Manage.html')
+        if user.name == "超管":
+            return render_template('S_add_Manage.html')
+        else:
+            return render_template('S_Remind.html',msg="权限不足")
 
     elif request.method == 'POST' and user is not None:
         # original new confirm
