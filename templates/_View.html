@@ -1,6 +1,6 @@
-{% extends 'Base.html' %}
+{% extends 'New_Base.html' %}
 {% block title %}
-    {{ p.rid }}
+    {{ p.rid }} {{ p.project_name }}:{{ p.user_name }}  {{ p.module }}
 {% endblock %}
 {% block style %}
     .chat-container {
@@ -25,7 +25,8 @@
 {% block body %}
     <div class="row">
         <div class="container">
-            <form method="post">
+
+            {#     <form method="post">
                 <div class="form-row">
                     <div class="form-group col-md-4">
                         <label for="name">流水号:</label>
@@ -56,7 +57,7 @@
                         <input type="text" class="form-control" id="rid" name="rid" value="{{ p.ptype }}" disabled>
                     </div>
                 </div>
-            </form>
+            </form>#}
             <hr>
             {# 功能模块 #}
             <div class="row" style="justify-content: center;">
@@ -67,7 +68,7 @@
                             消息列表
                         </div>
                         <div class="card-body">
-                            <div class="chat-container" id="chat-box-cont">
+                            <div class="chat-container" id="chat-box-cont" style="height: 450px; overflow-y: auto;">
                                 <div id="chat-box" class="xl-4">
                                     <!-- Messages will be displayed here -->
                                     <div class="alert mb-2 alert-primary">{{ p.generate_time|time_ftm }}&emsp;System:
@@ -158,7 +159,7 @@
                             文件列表
                         </div>
                         <div class="card-body">
-                            <div class="chat-container">
+                            <div class="chat-container" style="height: 450px; overflow-y: auto;">
                                 <div id="chat-box" class="xl-4">
                                     <!-- Messages will be displayed here -->
                                     {% if p_list|length > 0 %}

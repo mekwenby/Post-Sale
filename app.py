@@ -59,26 +59,27 @@ def hello_world():
         user = api.get_user(uid)
         user.u_token = mytools.get_u_token(uid)
         user.save()
-        response = make_response(render_template('index.html'))
+        response = make_response(render_template('New_Base_index.html', user=user))
         response.set_cookie('u_token', user.u_token)
 
     elif uid is not None and u_token is None:  # 有uid 没有cookie
         user = api.get_user(uid)
         user.u_token = mytools.get_u_token(uid)
         user.save()
-        response = make_response(render_template('index.html'))
+        response = make_response(render_template('New_Base_index.html', user=user))
         response.set_cookie('u_token', user.u_token)
 
-    elif uid is not None and u_token is not None:
+    elif uid is None and u_token is not None:
         user = api.from_u_token_user(u_token)
         if user is not None:
-            response = make_response(render_template('index.html'))
+            response = make_response(render_template('New_Base_index.html', user=user))
         else:
             response = make_response(redirect('/'))
             response.delete_cookie('u_token')
             return response
     else:
-        response = make_response(render_template('index.html'))
+
+        response = make_response(render_template('New_Base_index.html', user=None))
 
     return response
 
@@ -91,7 +92,7 @@ def hello_uid(uid=None):
     user = api.get_user(uid)
     user.u_token = mytools.get_u_token(uid)
     user.save()
-    response = make_response(render_template('index.html'))
+    response = make_response(render_template('New_Base_index.html', user=user))
     response.set_cookie('u_token', user.u_token)
     return response
 
@@ -125,7 +126,7 @@ def register():
 
 @app.route('/all')
 def palls():
-    return render_template('all.html', plist=api.get_all_problem())
+    return render_template('all.html', plist=api.get_all_problem(),tite="全部工单")
 
 
 @app.route('/my')
@@ -141,7 +142,7 @@ def my_all():
         except:
             plist = []
 
-        return render_template('all.html', plist=plist)
+        return render_template('all.html', plist=plist,tite="我的工单")
     else:
         return redirect('/')
 
@@ -248,6 +249,10 @@ def search():
 def support():
     """后台登录入口"""
     return redirect('/S/Login')
+
+@app.route('/test')
+def test__():
+    return render_template('New_Base.html')
 
 
 if __name__ == '__main__':

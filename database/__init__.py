@@ -5,7 +5,7 @@ from peewee import SqliteDatabase, Model, CharField, ForeignKeyField, IntegerFie
 from peewee import MySQLDatabase
 
 """ 使用sqlite数据库 """
-# db = SqliteDatabase('sqlite.db')  # 连接sqlite数据库
+#db = SqliteDatabase('sqlite.db')  # 连接sqlite数据库
 
 """ 使用Mysql"""
 

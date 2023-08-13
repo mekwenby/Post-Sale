@@ -17,7 +17,7 @@ def Login():
         if manage is not None:
             return redirect('/S/processing')
         else:
-            return render_template('S_L.html')
+            return render_template('New_S_L.html')
 
     else:
         name = request.form.get('name')
@@ -26,7 +26,7 @@ def Login():
         stats = api.manage_login(name=name, pwd=pwd)
         if not stats:
             """用户名或密码错误时"""
-            return render_template('S_L.html', msg='999')
+            return render_template('New_S_L.html', msg='999')
         else:
             """正确"""
             manage = api.get_manege(name=name)
@@ -160,7 +160,7 @@ def add_manage():
         if user.name == "超管":
             return render_template('S_add_Manage.html')
         else:
-            return render_template('S_Remind.html',msg="权限不足")
+            return render_template('S_Remind.html', msg="权限不足")
 
     elif request.method == 'POST' and user is not None:
         # original new confirm

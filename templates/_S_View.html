@@ -1,6 +1,6 @@
-{% extends 'S_Base.html' %}
+{% extends 'New_S_Base.html' %}
 {% block title %}
-    {{ p.rid }}
+    {{ p.rid }}|{{ p.project_name }}:{{ p.user_name }}  {{ p.module }}
 {% endblock %}
 {% block style %}
     .chat-container {
@@ -26,38 +26,6 @@
 {% block body %}
     <div class="row">
         <div class="container">
-            <form method="post">
-                <div class="form-row">
-                    <div class="form-group col-md-4">
-                        <label for="name">流水号:</label>
-                        <input type="text" class="form-control" id="rid" name="rid" value="{{ p.rid }}" disabled>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="department">部门名称:</label>
-                        <input type="text" class="form-control" id="department" name="department" readonly required
-                               autocomplete="off" value={{ p.project_name }}>
-                    </div>
-                    <div>
-                        <input type="hidden" name="uid" value="{{ user.uid }}" id="uid">
-                    </div>
-                    <div class="form-group col-md-2">
-                        <label for="name">操作账号:</label>
-                        <input type="text" class="form-control" id="rid" name="rid" value="{{ p.user_name }}" disabled>
-                    </div>
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group col-md-8">
-                        <label for="module">功能模块:</label>
-                        <input type="text" class="form-control" id="rid" name="rid" value="{{ p.module }}" disabled>
-                    </div>
-
-                    <div class="form-group col-md-4">
-                        <label for="problem_type">工单类型:</label>
-                        <input type="text" class="form-control" id="rid" name="rid" value="{{ p.ptype }}" disabled>
-                    </div>
-                </div>
-            </form>
             <hr>
             {# 功能模块 #}
             <div class="row" style="justify-content: center;">
@@ -68,7 +36,7 @@
                             消息列表
                         </div>
                         <div class="card-body">
-                            <div class="chat-container" id="chat-box-cont">
+                            <div class="chat-container" id="chat-box-cont" style="height: 450px; overflow-y: auto;">
                                 <div id="chat-box" class="xl-4">
                                     <!-- Messages will be displayed here -->
                                     <div class="alert mb-2 alert-primary">{{ p.generate_time|time_ftm }}&emsp;System:
@@ -158,7 +126,7 @@
                             文件列表
                         </div>
                         <div class="card-body">
-                            <div class="chat-container">
+                            <div class="chat-container" style="height: 450px; overflow-y: auto;">
                                 <div id="chat-box" class="xl-4">
                                     <!-- Messages will be displayed here -->
                                     {% if p_list|length > 0 %}
