@@ -5,13 +5,14 @@
 {% block style %}
     .chat-container {
     max-width: 800px; /* Set a wider width for the chat container */
-    height: 400px; /* Set a fixed height for the chat container */
+    height: 380px; /* Set a fixed height for the chat container */
     overflow-y: auto; /* Enable vertical scroll when messages exceed container height */
     margin: 0 auto;
     }
 
     .receiver-message {
     background-color: #f0f0f0;
+    color: #000000;
     }
 
 
@@ -58,7 +59,6 @@
                     </div>
                 </div>
             </form>#}
-            <hr>
             {# 功能模块 #}
             <div class="row" style="justify-content: center;">
                 <!-- Chat Box 1 聊天框 -->
@@ -68,7 +68,7 @@
                             消息列表
                         </div>
                         <div class="card-body">
-                            <div class="chat-container" id="chat-box-cont" style="height: 450px; overflow-y: auto;">
+                            <div class="chat-container" id="chat-box-cont" style="height: 380px; overflow-y: auto;">
                                 <div id="chat-box" class="xl-4">
                                     <!-- Messages will be displayed here -->
                                     <div class="alert mb-2 alert-primary">{{ p.generate_time|time_ftm }}&emsp;System:
@@ -159,7 +159,7 @@
                             文件列表
                         </div>
                         <div class="card-body">
-                            <div class="chat-container" style="height: 450px; overflow-y: auto;">
+                            <div class="chat-container" style="height: 380px; overflow-y: auto;">
                                 <div id="chat-box" class="xl-4">
                                     <!-- Messages will be displayed here -->
                                     {% if p_list|length > 0 %}

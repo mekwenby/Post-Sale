@@ -14,7 +14,7 @@ services:
     links:
       - db
     ports:
-      - "12309:12309"
+      - "12309:8080"
 
   db:
     image: mariadb:10.5
