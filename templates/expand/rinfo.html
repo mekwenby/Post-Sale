@@ -1,0 +1,56 @@
+{% macro rinfo(p) %}
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">工单详情</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="color: #000000">
+                    <div>
+                        <table class="table table-secondary">
+                            <tbody>
+                            <tr>
+                                <td>工单号</td>
+                                <td>{{ p.rid }}</td>
+                            </tr>
+                            <tr>
+                                <td>创建时间</td>
+                                <td>{{ p.generate_time|time_ftm }}</td>
+                            </tr>
+                            <tr>
+                                <td>创建部门</td>
+                                <td>{{ p.project_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>发起人</td>
+                                <td>{{ p.user_name }}</td>
+                            </tr>
+                            <tr>
+                                <td>问题模块</td>
+                                <td>{{ p.module }}</td>
+                            </tr>
+                            <tr>
+                                <td>工单类型</td>
+                                <td>{{ p.ptype }}</td>
+                            </tr>
+
+
+                            </tbody>
+                        </table>
+                        <div>
+                            <p>描述:</p>
+                            {{ p.text|text_br|safe }}
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

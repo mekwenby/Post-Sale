@@ -1,6 +1,8 @@
 {% extends 'New_S_Base.html' %}
 {% block title %}
-    {{ p.rid }}
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        {{ p.rid }}
+    </button>
 {% endblock %}
 
 {% block body %}
@@ -128,6 +130,8 @@
     </div>
 
     {# 底部Desk栏 #}
+    {% from 'expand/rinfo.html' import rinfo %}
+    {{ rinfo(p) }}
 
 {% endblock %}
 

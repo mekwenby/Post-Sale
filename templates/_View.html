@@ -1,6 +1,14 @@
 {% extends 'New_Base.html' %}
 {% block title %}
-    {{ p.rid }} {{ p.project_name }}:{{ p.user_name }}  {{ p.module }}
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        {{ p.rid }}
+    </button>
+    {% if user.uid == p.establish_id %}
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filemanagement">
+            工单文件管理
+        </button>
+    {% endif %}
+
 {% endblock %}
 {% block style %}
     .chat-container {
@@ -62,14 +70,14 @@
             {# 功能模块 #}
             <div class="row" style="justify-content: center;">
                 <!-- Chat Box 1 聊天框 -->
-                <div class="col-xl-6">
+                <div class="col-xl-12">
                     <div class="card">
                         <div class="card-header">
                             消息列表
                         </div>
                         <div class="card-body">
                             <div class="chat-container" id="chat-box-cont" style="height: 380px; overflow-y: auto;">
-                                <div id="chat-box" class="xl-4">
+                                <div id="chat-box" class="xl-12">
                                     <!-- Messages will be displayed here -->
                                     <div class="alert mb-2 alert-primary">{{ p.generate_time|time_ftm }}&emsp;System:
                                         <br>
@@ -151,63 +159,16 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- Chat Box 2 文件框 -->
-                <div class="col-xl-6 mt-4 mt-xl-0">
-                    <div class="card">
-                        <div class="card-header">
-                            文件列表
-                        </div>
-                        <div class="card-body">
-                            <div class="chat-container" style="height: 380px; overflow-y: auto;">
-                                <div id="chat-box" class="xl-4">
-                                    <!-- Messages will be displayed here -->
-                                    {% if p_list|length > 0 %}
-                                        {% for file in p_list %}
-                                            <div class="alert mb-2 file-message" style="font-weight: bold;">
-                                                {{ file.up_time|time_ftm }}&emsp;{{ file.up_name }}:
-                                                <br>
-                                                {{ file.filename }}
-                                                {% if user.uid == p.establish_id %}
-                                                    <br>
-                                                    <a href="/static/upload/{{ file.rid }}/{{ file.filename }}">下载</a>
-                                                {% endif %}
-                                            </div>
-
-                                        {% endfor %}
-
-
-                                    {% endif %}
-
-                                </div>
-                            </div>
-                            <div class="input-group">
-                                <textarea id="message-input" class="form-control" placeholder="Select your File..."
-                                          rows="2" disabled></textarea>
-                                <div class="input-group-append" style="display: flex;">
-                                    {% if user.uid == p.establish_id %}
-                                        <div>
-                                            <div class="file_form" id="file-select-div">
-                                                <div id="ico"><img class="appico" src="/static/images/upfile.png"
-                                                                   alt="S">
-                                                </div>
-                                            </div>
-                                            <input type="hidden" name="hidden_rid" value="{{ rid }}" id="rid">
-                                            <input type="hidden" name="up_name" value="{{ user.uid }}" id="up_name">
-                                            <input type="file" id="file-input" style="display: none;">
-                                        </div>
-                                    {% endif %}
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
 
     </div>
 
+
+    {% from 'expand/rinfo.html' import rinfo %}
+    {{ rinfo(p) }}
+    {% from 'expand/filemanagement.html' import filemanagement %}
+    {{ filemanagement(p_list,user) }}
 
 {% endblock %}
 

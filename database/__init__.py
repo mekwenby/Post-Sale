@@ -5,11 +5,12 @@ from peewee import SqliteDatabase, Model, CharField, ForeignKeyField, IntegerFie
 from peewee import MySQLDatabase
 
 """ 使用sqlite数据库 """
-#db = SqliteDatabase('sqlite.db')  # 连接sqlite数据库
+db = SqliteDatabase('sqlite.db')  # 连接sqlite数据库
 
 """ 使用Mysql"""
 
-db = MySQLDatabase(host='db', port=3306, user='root', passwd='passwd', database='Web')
+
+# db = MySQLDatabase(host='db', port=3306, user='root', passwd='passwd', database='Web')
 
 
 class BaseModel(Model):
@@ -31,7 +32,7 @@ class Problem(BaseModel):
     text = CharField(max_length=1024, null=True)
     generate_time = IntegerField(default=lambda: int(time.time()))
     solve_time = IntegerField(null=True)
-    solve_name = CharField(null=True)
+    solve_name = CharField(null=True, default="未分配")
     """
     submit 提交标签
     solve  处理标签
@@ -75,6 +76,7 @@ class User(BaseModel):
     """
     id = AutoField(primary_key=True)
     uid = CharField(index=True)
+    department = CharField(default="默认")
     u_token = CharField(null=True, index=True)
 
 

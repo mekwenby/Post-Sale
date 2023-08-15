@@ -1,0 +1,33 @@
+<div>
+    <div class="file_form" id="file-select-div">
+        <div id="ico"><img class="appico" src="/static/images/upfile.png"
+                           alt="S">
+            <div class="file_tite" style="font-size: 18px;">选择文件并上传</div>
+        </div>
+    </div>
+    <input type="hidden" name="hidden_rid" value="{{ rid }}" id="rid">
+    <input type="hidden" name="up_name" value="{{ user.name }}" id="up_name">
+    <input type="file" id="file-input" style="display: none;">
+</div>
+
+
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        {{ p.rid }}
+    </button>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifystate">
+        修改工单状态
+    </button>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filemanagement">
+        工单文件管理
+    </button>
+
+
+{% from 'expand/rinfo.html' import rinfo %}
+    {{ rinfo(p) }}
+    {% from 'expand/modifystate.html' import modifystate %}
+    {{ modifystate(p,user,manege_list) }}
+
+    {% from 'expand/filemanagement.html' import filemanagement %}
+    {{ filemanagement(p_list,user) }}

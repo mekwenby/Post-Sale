@@ -1,3 +1,4 @@
+import datetime
 import os
 
 import mytools.Mek_master
@@ -219,7 +220,8 @@ def search_problem(text):
     query = Problem.select().where(
         (Problem.rid.contains(text)) |
         (Problem.project_name.contains(text)) |
-        (Problem.user_name.contains(text))
+        (Problem.user_name.contains(text)) |
+        (Problem.module.contains(text))
     )
     sorted_problems = query.order_by(Problem.generate_time.desc())
     return list(sorted_problems)
@@ -228,3 +230,34 @@ def search_problem(text):
 def add_manage(name, passwd):
     """添加Manege"""
     ManageUser.create(name=name, passwd=passwd)
+
+
+def get_user_p_list(uid):
+    待处理 = Problem.select().where(Problem.user_name.contains(uid) & Problem.solve.contains("待处理")).count()
+    处理中 = Problem.select().where(Problem.user_name.contains(uid) & Problem.solve.contains("处理中")).count()
+    待回复 = Problem.select().where(Problem.user_name.contains(uid) & Problem.solve.contains("待回复")).count()
+    已完成 = Problem.select().where(Problem.user_name.contains(uid) & Problem.solve.contains("已完成")).count()
+    # return [len(待处理), len(处理中), len(待回复), len(已完成)]
+    return [待回复, 待处理, 处理中, 已完成]
+
+
+def get_manage_p_list(uid):
+    # 获取当前日期时间
+    current_datetime = datetime.datetime.now()
+    # 获取今天0点时间
+    today_midnight = current_datetime.replace(hour=0, minute=0, second=0, microsecond=0)
+    # 转换为UNIX时间戳
+    unix_timestamp = today_midnight.timestamp()
+    now_unix = int(unix_timestamp)
+
+    待回复 = Problem.select().where(Problem.solve.contains("待回复")).count()
+    待处理 = Problem.select().where(Problem.solve != "已完成").count()
+    我的待处理 = Problem.select().where(
+        Problem.solve_name.contains(uid) & Problem.submit == True).count()
+    处理中 = Problem.select().where(Problem.solve.contains("处理中")).count()
+    今日 = Problem.select().where(Problem.generate_time >= now_unix).count()
+    今日完成 = Problem.select().where(Problem.generate_time >= now_unix and Problem.solve.contains("已完成")).count()
+    总数 = Problem.select().count()
+
+    # return [len(待处理), len(处理中), len(待回复), len(已完成)]
+    return [待回复, 我的待处理, 待处理, 处理中, 今日, 总数, 今日完成]

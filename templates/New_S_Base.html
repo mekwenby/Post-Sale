@@ -102,10 +102,10 @@
             <div class="collapse navbar-collapse" id="navbar-main-collapse">
                 <!-- Right menu -->
                 <form class="form-inline my-2 my-lg-0" action="/S/search">
-                <input class="form-control mr-sm-2" type="search" placeholder="输入工单信息" aria-label="Search3"
-                       name="search">
-                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
-            </form>
+                    <input class="form-control mr-sm-2" type="search" placeholder="输入工单信息" aria-label="Search3"
+                           name="search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">搜索</button>
+                </form>
                 {#
                 <ul class="navbar-nav align-items-center mx-auto">
                     <li class="nav-item">
@@ -133,9 +133,12 @@
     <nav class="sidenav navbar navbar-vertical navbar-expand-xs navbar-light bg-white" id="sidenav-main">
         <div class="scrollbar-inner px-4">
             <!-- Navigation -->
-            <div class="docs-sidebar pt-6 pt-lg-7">
+            <div class="docs-sidebar pt-0 pt-lg-0">
                 <h6 class="mt-4">工作台</h6>
                 <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a href="/S/dashboard" class="nav-link">首页</a>
+                    </li>
                     <li class="nav-item">
                         <a href="/S/processing" class="nav-link">全部待处理</a>
                     </li>
@@ -146,8 +149,7 @@
                         <a href="/S/all" class="nav-link">全部工单</a>
                     </li>
                 </ul>
-            </div>
-            <div class="docs-sidebar pt-6 pt-lg-7">
+
                 <h6 class="mt-4">系统设置</h6>
                 <ul class="nav flex-column">
                     <li class="nav-item">
@@ -168,9 +170,9 @@
         <div class="col-xl-12 docs-content pb-5">
             <!-- Docs title -->
             <div class="docs-title">
-                <h2>{% block title %}
+                <h4>{% block title %}
                     工作台
-                {% endblock %}</h2>
+                {% endblock %}</h4>
                 {% block body %}
                 {% endblock %}
             </div>

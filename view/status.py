@@ -1,3 +1,5 @@
+import datetime
+
 from flask import Blueprint, request, redirect, jsonify
 import database.api as api
 import mytools
@@ -29,7 +31,12 @@ def myprocessing():
     """获取我的待处理数量"""
     m_token = request.cookies.get('m_token')
     user = api.form_token_get_manege(m_token)
-    if user is not None:        # 处理m_token 失效的情况
+    if user is not None:  # 处理m_token 失效的情况
         return jsonify({'processing': len(api.get_manage_processing_problem(user.name))})
     else:
         return jsonify({'processing': 0})
+
+
+@bp.route("/ping")
+def ping():
+    return jsonify({"status": "OK", "date": datetime.datetime.now()})

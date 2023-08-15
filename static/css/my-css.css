@@ -317,3 +317,10 @@ code {
 .image-receiver-message {
     background-color: greenyellow;
 }
+
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }

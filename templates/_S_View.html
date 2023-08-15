@@ -1,6 +1,16 @@
 {% extends 'New_S_Base.html' %}
 {% block title %}
-    {{ p.rid }}|{{ p.project_name }}:{{ p.user_name }}  {{ p.module }}
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        {{ p.rid }}
+    </button>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modifystate">
+        修改工单状态
+    </button>
+
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#filemanagement">
+        工单文件管理
+    </button>
 {% endblock %}
 {% block style %}
     .chat-container {
@@ -26,186 +36,159 @@
 
 {% block body %}
     <div class="row">
-        <div class="container">
-            {# 功能模块 #}
-            <div class="row" style="justify-content: center;">
-                <!-- Chat Box 1 聊天框 -->
-                <div class="col-xl-6">
-                    <div class="card">
-                        <div class="card-header">
-                            消息列表
-                        </div>
-                        <div class="card-body">
-                            <div class="chat-container" id="chat-box-cont" style="height: 450px; overflow-y: auto;">
-                                <div id="chat-box" class="xl-4">
-                                    <!-- Messages will be displayed here -->
-                                    <div class="alert mb-2 alert-primary">{{ p.generate_time|time_ftm }}&emsp;System:
-                                        <br>
-                                        {{ p.text|text_br|safe }}
-                                    </div>
-                                    {% if p.Message|length > 0 %}
-                                        {% for m in p.Message %}
-                                            {% if m.type == 'text' %} {# 处理文本消息 #}
-                                                {% if m.source == 'user' %}
-                                                    <div class="alert mb-2 alert-primary">
-                                                        {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
-                                                        <br>
-                                                        {{ m.text|text_br|safe }}
-                                                    </div>
-                                                {% else %}
-                                                    <div class="alert mb-2 receiver-message">
-                                                        {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
-                                                        <br>
-                                                        {{ m.text|text_br|safe }}
-                                                    </div>
-                                                {% endif %}
-                                            {% elif m.type == 'img' %} {# 处理图片 #}
-                                                {% if m.source == 'user' %}
-                                                    <div class="alert mb-2 alert-primary"
-                                                         onclick="window.open('/static/upload/{{ p.rid }}/{{ m.text }}')">
-                                                        <img
-                                                                src="/static/upload/{{ p.rid }}/{{ m.text }}"
-                                                                class="image-message" alt="图片丢失">
-                                                    </div>
-                                                {% else %}
-                                                    <div class="alert mb-2 receiver-message"><img
-                                                            src="/static/upload/{{ p.rid }}/{{ m.text }}"
-                                                            class="image-message" alt="图片丢失">
-                                                    </div>
-                                                {% endif %}
-                                            {% elif m.type == 'file' %}
-                                                {% if m.source == 'user' %}
-                                                    <div class="alert mb-2 alert-primary">
-                                                        {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
-                                                        <br>
-                                                        {{ m.text|text_br|safe }}
-                                                    </div>
-                                                {% else %}
-                                                    <div class="alert mb-2 receiver-message">
-                                                        {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
-                                                        <br>
-                                                        {{ m.text|text_br|safe }}
-                                                    </div>
-                                                {% endif %}
-                                            {% endif %}
-
-                                        {% endfor %}
-
-
+    <div class="container">
+    {# 功能模块 #}
+    <div class="row" style="justify-content: center;">
+        <!-- Chat Box 1 聊天框 -->
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-header">
+                    消息列表
+                </div>
+                <div class="card-body">
+                    <div class="chat-container" id="chat-box-cont" style="height: 450px; overflow-y: auto;">
+                        <div id="chat-box" class="xl-12">
+                            <!-- Messages will be displayed here -->
+                            <div class="alert mb-4 alert-primary">{{ p.generate_time|time_ftm }}&emsp;System:
+                                <br>
+                                {{ p.text|text_br|safe }}
+                            </div>
+                            {% if p.Message|length > 0 %}
+                                {% for m in p.Message %}
+                                    {% if m.type == 'text' %} {# 处理文本消息 #}
+                                        {% if m.source == 'user' %}
+                                            <div class="alert mb-4 alert-primary">
+                                                {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
+                                                <br>
+                                                {{ m.text|text_br|safe }}
+                                            </div>
+                                        {% else %}
+                                            <div class="alert mb-4 receiver-message">
+                                                {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
+                                                <br>
+                                                {{ m.text|text_br|safe }}
+                                            </div>
+                                        {% endif %}
+                                    {% elif m.type == 'img' %} {# 处理图片 #}
+                                        {% if m.source == 'user' %}
+                                            <div class="alert mb-4 alert-primary"
+                                                 onclick="window.open('/static/upload/{{ p.rid }}/{{ m.text }}')">
+                                                <img
+                                                        src="/static/upload/{{ p.rid }}/{{ m.text }}"
+                                                        class="image-message" alt="图片丢失">
+                                            </div>
+                                        {% else %}
+                                            <div class="alert mb-2 receiver-message"><img
+                                                    src="/static/upload/{{ p.rid }}/{{ m.text }}"
+                                                    class="image-message" alt="图片丢失">
+                                            </div>
+                                        {% endif %}
+                                    {% elif m.type == 'file' %}
+                                        {% if m.source == 'user' %}
+                                            <div class="alert mb-2 alert-primary">
+                                                {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
+                                                <br>
+                                                {{ m.text|text_br|safe }}
+                                            </div>
+                                        {% else %}
+                                            <div class="alert mb-2 receiver-message">
+                                                {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
+                                                <br>
+                                                {{ m.text|text_br|safe }}
+                                            </div>
+                                        {% endif %}
                                     {% endif %}
 
-                                </div>
-                            </div>
+                                {% endfor %}
 
-                            <form id="message-form" method="post" action="/Message">
-                                <input type="hidden" name="rid" value="{{ p.rid }}" id="rid">
-                                <input type="hidden" name="author" value="{{ user.name }}" id="uid">
-                                <div class="input-group">
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                    <form id="message-form" method="post" action="/Message">
+                        <input type="hidden" name="rid" value="{{ p.rid }}" id="rid">
+                        <input type="hidden" name="author" value="{{ user.name }}" id="uid">
+                        <div class="input-group">
 
                                         <textarea id="text" name="text" class="form-control"
                                                   placeholder="Type your message..."
                                                   rows="2"></textarea>
 
-                                    <div class="input-group-append" style="display: flex;">
-                                        <input type="hidden" name="message_length" value="{{ p.Message|length }}"
-                                               id="message_length">
-                                        <button class="btn btn-primary" style="flex: 1;">发送</button>
-                                    </div>
-
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Chat Box 2 文件框 -->
-                <div class="col-xl-6 mt-4 mt-xl-0">
-                    <div class="card">
-                        <div class="card-header">
-                            文件列表
-                        </div>
-                        <div class="card-body">
-                            <div class="chat-container" style="height: 450px; overflow-y: auto;">
-                                <div id="chat-box" class="xl-4">
-                                    <!-- Messages will be displayed here -->
-                                    {% if p_list|length > 0 %}
-                                        {% for file in p_list %}
-                                            <div class="alert mb-2 file-message" style="font-weight: bold;">
-                                                {{ file.up_time|time_ftm }}&emsp;{{ file.up_name }}:
-                                                <br>
-                                                {{ file.filename }}
-                                                <br>
-                                                <a href="/static/upload/{{ file.rid }}/{{ file.filename }}">下载</a>
-                                            </div>
-
-                                        {% endfor %}
-
-
-                                    {% endif %}
-
-                                </div>
+                            <div class="input-group-append" style="display: flex;">
+                                <input type="hidden" name="message_length" value="{{ p.Message|length }}"
+                                       id="message_length">
+                                <button class="btn btn-primary" style="flex: 1;">发送</button>
                             </div>
-                            <div class="input-group">
-                                <textarea id="message-input" class="form-control" placeholder="Select your File..."
-                                          rows="2" disabled></textarea>
-                                <div class="input-group-append" style="display: flex;">
 
-                                    <div>
-                                        <div class="file_form" id="file-select-div">
-                                            <div id="ico"><img class="appico" src="/static/images/upfile.png"
-                                                               alt="S">
-                                            </div>
-                                        </div>
-                                        <input type="hidden" name="hidden_rid" value="{{ rid }}" id="rid">
-                                        <input type="hidden" name="up_name" value="{{ user.name }}" id="up_name">
-                                        <input type="file" id="file-input" style="display: none;">
-                                    </div>
-
-
-                                </div>
-                            </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            {# 处理模块 #}
-            <div>
-                <div class="container">
-                    <form class="form-inline" action="/S/pull/{{ p.rid }}" method="post">
-                        <!-- 状态选择框 -->
-                        <div class="form-group mr-4">
-                            <label for="status">状态: </label>
-                            <select class="form-control" id="status" name="status">
-                                <option value="待处理">待处理</option>
-                                <option value="待回复">待回复</option>
-                                <option value="处理中">处理中</option>
-                                <option value="已完成">已完成</option>
-                                <option value="关闭">关闭</option>
-                            </select>
-                        </div>
-
-                        <!-- 指派选择框 -->
-                        <div class="form-group mr-4">
-                            <label for="assign">指派: </label>
-                            <select class="form-control" id="assign" name="assign">
-                                <option value="{{ user.name }}">{{ user.name }}</option>
-                                {% for manege in manege_list %}
-                                    <option value="{{ manege.name }}">{{ manege.name }}</option>
-                                {% endfor %}
-
-                            </select>
-                        </div>
-
-                        <!-- 修改按钮 -->
-                        <button type="submit" class="btn btn-primary">修改</button>
                     </form>
+
                 </div>
             </div>
         </div>
 
+        <!-- Chat Box 2 文件框 -->
+    {#
+        <div class="col-xl-6 mt-4 mt-xl-0">
+            <div class="card">
+                <div class="card-header">
+                    文件列表
+                </div>
+                <div class="card-body">
+                    <div class="chat-container" style="height: 450px; overflow-y: auto;">
+                        <div id="chat-box" class="xl-4">
+                            <!-- Messages will be displayed here -->
+                            {% if p_list|length > 0 %}
+                                {% for file in p_list %}
+                                    <div class="alert mb-2 file-message" style="font-weight: bold;">
+                                        {{ file.up_time|time_ftm }}&emsp;{{ file.up_name }}:
+                                        <br>
+                                        {{ file.filename }}
+                                        <br>
+                                        <a href="/static/upload/{{ file.rid }}/{{ file.filename }}">下载</a>
+                                    </div>
+
+                                {% endfor %}
+
+
+                            {% endif %}
+
+                        </div>
+                    </div>
+                    <div class="input-group">
+                                <textarea id="message-input" class="form-control" placeholder="Select your File..."
+                                          rows="2" disabled></textarea>
+                        <div class="input-group-append" style="display: flex;">
+
+                            <div>
+                                <div class="file_form" id="file-select-div">
+                                    <div id="ico"><img class="appico" src="/static/images/upfile.png"
+                                                       alt="S">
+                                    </div>
+                                </div>
+                                <input type="hidden" name="hidden_rid" value="{{ rid }}" id="rid">
+                                <input type="hidden" name="up_name" value="{{ user.name }}" id="up_name">
+                                <input type="file" id="file-input" style="display: none;">
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>#}
     </div>
+
+    {% from 'expand/rinfo.html' import rinfo %}
+    {{ rinfo(p) }}
+    {% from 'expand/modifystate.html' import modifystate %}
+    {{ modifystate(p,user,manege_list) }}
+
+    {% from 'expand/filemanagement.html' import filemanagement %}
+    {{ filemanagement(p_list,user) }}
+
 
     {# 底部Desk栏 #}
 

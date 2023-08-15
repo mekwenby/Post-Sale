@@ -15,7 +15,7 @@ def Login():
         m_token = request.cookies.get('m_token')
         manage = api.form_token_get_manege(m_token)
         if manage is not None:
-            return redirect('/S/processing')
+            return redirect('/S/dashboard')
         else:
             return render_template('New_S_L.html')
 
@@ -32,7 +32,7 @@ def Login():
             manage = api.get_manege(name=name)
             manage.m_token = mytools.get_m_token(name)
             manage.save()
-            response = make_response(redirect('/S/processing'))
+            response = make_response(redirect('/S/dashboard'))
             # cookie 有效期为 20小时 60秒*60分钟*20
             response.set_cookie(key='m_token', value=manage.m_token, max_age=int(60 * 60 * 20))
 
@@ -114,7 +114,7 @@ def s_r_pull(rid):
 
     p.save()
 
-    return redirect('/S/processing')
+    return redirect('/S/dashboard')
 
 
 @bp.route('/search')
@@ -176,3 +176,15 @@ def add_manage():
 
     else:
         return redirect('/logout')
+
+
+@bp.route('/dashboard')
+def dashboard():
+    m_token = request.cookies.get('m_token')
+    user = api.form_token_get_manege(m_token)
+    if user is not None:
+        data = api.get_manage_p_list(user.name)
+        print(data)
+        return render_template('S_Dashboard.html', title='Dashboard', data=data)
+    else:
+        return redirect('/S')

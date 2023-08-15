@@ -1,0 +1,55 @@
+{% macro modifystate(p,user,manage_list) %}
+    <div></div>
+    <div class="modal fade" id="modifystate" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">修改工单状态</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="color: #000000">
+                    <div class="row">
+                        <div class="container">
+                            <form class="form-inline" action="/S/pull/{{ p.rid }}" method="post">
+                                <!-- 状态选择框 -->
+                                <div class="form-group mr-6">
+                                    <label for="status">状态: </label>
+                                    <select class="form-control" id="status" name="status">
+                                        <option value="待处理">待处理</option>
+                                        <option value="待回复">待回复</option>
+                                        <option value="处理中">处理中</option>
+                                        <option value="已完成">已完成</option>
+                                        <option value="关闭">关闭</option>
+                                    </select>
+                                </div>
+
+                                <!-- 指派选择框 -->
+                                <div class="form-group mr-6">
+                                    <label for="assign">指派: </label>
+                                    <select class="form-control" id="assign" name="assign">
+                                        <option value="{{ user.name }}">{{ user.name }}</option>
+                                        {% for manege in manege_list %}
+                                            <option value="{{ manege.name }}">{{ manege.name }}</option>
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+                                <hr>
+                                <!-- 修改按钮 -->
+                                <button type="submit" class="btn btn-primary">修改</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+        </div>
+    </div>
+    </div>
+    </div>
+{% endmacro %}

@@ -1,0 +1,28 @@
+{% macro processing(text) %}
+    <div class="tab-example-result">
+        {% if text == '待处理' %}
+            <span class="badge badge-secondary">
+                            待处理
+            </span>
+        {% elif text == '处理中' %}
+            <span class="badge badge-primary">
+                            处理中
+            </span>
+        {% elif text == '已完成' %}
+            <span class="badge badge-success">
+                            已完成
+            </span>
+
+        {% elif text == '待回复' %}
+            <span class="badge badge-warning">
+                            待回复
+            </span>
+        {% else %}
+            <span class="badge badge-dark">
+                            {{ text }}
+            </span>
+        {% endif %}
+
+
+    </div>
+{% endmacro %}

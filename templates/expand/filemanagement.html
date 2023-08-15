@@ -1,0 +1,50 @@
+{% macro filemanagement(p_list,user) %}
+    <div class="modal fade docs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+         aria-hidden="true" id="filemanagement">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h5 class="modal-title h6" id="myLargeModalLabel">文件管理</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th scope="col">文件名</th>
+                            <th scope="col">上传者</th>
+                            <th scope="col">上传时间</th>
+                            <th scope="col">下载</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for file in p_list %}
+                            <tr>
+                                <td>{{ file.filename }}</td>
+                                <td>{{ file.up_name }}</td>
+                                <td>{{ file.up_time|time_ftm }}</td>
+                                <td><a href="/static/upload/{{ file.rid }}/{{ file.filename }}">下载</a></td>
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
+                    <div>
+                        <div class="file_form" id="file-select-div">
+                            <div id="ico"><img class="appico" src="/static/images/upfile.png"
+                                               alt="S">
+                            </div>
+                        </div>
+                        <input type="hidden" name="hidden_rid" value="{{ rid }}" id="rid">
+                        <input type="hidden" name="up_name" value="{{ user.name }}" id="up_name">
+                        <input type="file" id="file-input" style="display: none;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endmacro %}

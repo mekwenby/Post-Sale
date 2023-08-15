@@ -49,6 +49,11 @@ def time_ftm(value):
     return formatted_text
 
 
+@app.template_filter('end_msg_author')
+def end_msg_author(value):
+    return len(value)
+
+
 @app.route('/')
 def hello_world():
     uid = request.args.get('uid')
@@ -126,7 +131,7 @@ def register():
 
 @app.route('/all')
 def palls():
-    return render_template('all.html', plist=api.get_all_problem(),tite="全部工单")
+    return render_template('all.html', plist=api.get_all_problem(), tite="全部工单")
 
 
 @app.route('/my')
@@ -142,7 +147,7 @@ def my_all():
         except:
             plist = []
 
-        return render_template('all.html', plist=plist,tite="我的工单")
+        return render_template('all.html', plist=plist, tite="我的工单")
     else:
         return redirect('/')
 
@@ -242,13 +247,25 @@ def SMessage():
 def search():
     """搜索"""
     search_text = request.args.get('search')
-    return render_template('all.html', plist=api.search_problem(search_text))
+    return render_template('all.html', plist=api.search_problem(search_text), tite=f'搜索 {search_text}')
+
+
+@app.route('/dashboard')
+def dashboard():
+    u_token = request.cookies.get('u_token')
+    user = api.from_u_token_user(u_token)
+    if user is not None:
+        # print(api.get_user_p_list(user.uid))
+        return render_template('Dashboard.html', title='Dashboard', data=api.get_user_p_list(user.uid))
+    else:
+        return redirect('/')
 
 
 @app.route('/S')
 def support():
     """后台登录入口"""
     return redirect('/S/Login')
+
 
 @app.route('/test')
 def test__():

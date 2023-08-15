@@ -1,0 +1,83 @@
+{% extends 'New_Base.html' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="p-3 d-flex">
+            <div>
+                <div class="icon icon-shape rounded-circle bg-warning text-white mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-bell">
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                    </svg>
+                </div>
+            </div>
+            <div>
+                <span class="h6">{{ data[0] }}</span>
+                <p class="text-sm text-muted mb-0">
+                    待回复
+                </p>
+            </div>
+        </div>
+
+        <div class="p-3 d-flex">
+            <div>
+                <div class="icon icon-shape rounded-circle bg-dark text-white mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-clock">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12 6 12 12 16 14"></polyline>
+                    </svg>
+                </div>
+            </div>
+            <div>
+                <span class="h6">{{ data[1] }}</span>
+                <p class="text-sm text-muted mb-0">
+                    待处理
+                </p>
+            </div>
+        </div>
+
+        <div class="p-3 d-flex">
+            <div>
+                <div class="icon icon-shape rounded-circle bg-primary text-white mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-activity">
+                        <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                    </svg>
+                </div>
+            </div>
+            <div>
+                <span class="h6">{{ data[2] }}</span>
+                <p class="text-sm text-muted mb-0">
+                    处理中
+                </p>
+            </div>
+        </div>
+
+        <div class="p-3 d-flex">
+            <div>
+                <div class="icon icon-shape rounded-circle bg-success text-white mr-4">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                         class="feather feather-check">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+            </div>
+            <div>
+                <span class="h6">{{ data[3] }}</span>
+                <p class="text-sm text-muted mb-0">
+                    已完成
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}
