@@ -57,18 +57,21 @@ def end_msg_author(value):
 @app.route('/')
 def hello_world():
     uid = request.args.get('uid')
+    bm = request.args.get('bm')
+    if bm is None:
+        bm = '默认'
     u_token = request.cookies.get('u_token')
     # print(uid, u_token)
     if uid is None and u_token is None:  # 没有uid也没有cookie
         uid = 'Guest'
-        user = api.get_user(uid)
+        user = api.get_user(uid, bm)
         user.u_token = mytools.get_u_token(uid)
         user.save()
         response = make_response(render_template('New_Base_index.html', user=user))
         response.set_cookie('u_token', user.u_token)
 
     elif uid is not None and u_token is None:  # 有uid 没有cookie
-        user = api.get_user(uid)
+        user = api.get_user(uid, bm)
         user.u_token = mytools.get_u_token(uid)
         user.save()
         response = make_response(render_template('New_Base_index.html', user=user))
@@ -97,7 +100,7 @@ def hello_uid(uid=None):
         bm = '默认'
     if uid is None:
         uid = 'Guest'
-    user = api.get_user(uid,bm)
+    user = api.get_user(uid, bm)
     user.u_token = mytools.get_u_token(uid)
     user.save()
     response = make_response(render_template('New_Base_index.html', user=user))
