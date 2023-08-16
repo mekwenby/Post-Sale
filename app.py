@@ -92,9 +92,12 @@ def hello_world():
 # 通过path登录
 @app.route('/uid/<uid>')
 def hello_uid(uid=None):
+    bm = request.args.get('bm')
+    if bm is None:
+        bm = '默认'
     if uid is None:
         uid = 'Guest'
-    user = api.get_user(uid)
+    user = api.get_user(uid,bm)
     user.u_token = mytools.get_u_token(uid)
     user.save()
     response = make_response(render_template('New_Base_index.html', user=user))

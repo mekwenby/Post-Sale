@@ -105,18 +105,24 @@ def get_manage_list():
     return [name for name in ManageUser().select()]
 
 
-def get_user(uid):
+def get_user(uid, bm):
     """
     处理用户模型
     用于存在则返回,不存在则创建
-    :param uid:
+    :param bm: 部门
+    :param uid: 用户名
     :return:
     """
     user = User.get_or_none(uid=uid)
     if user is not None:  # 用户存在
+
+        if user.department != bm:  # 部门有变动时
+            user.department = bm
+            user.save()
+
         return user
     else:  # 用户不存在
-        user = User.create(uid=uid)
+        user = User.create(uid=uid, department=bm)
         return user
 
 
