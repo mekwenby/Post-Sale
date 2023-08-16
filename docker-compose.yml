@@ -17,7 +17,7 @@ services:
       - "12309:8080"
 
   db:
-    image: mariadb:10.5
+    image: mariadb:11
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: passwd

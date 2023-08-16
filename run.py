@@ -30,7 +30,8 @@ def run(MULTI_PROCESS):
 
 if __name__ == "__main__":
     # 单进程 + 协程
+    mytools.Mek_master.logo_pray()
     mytools.Mek_master.logo_Slabt()
-    run(False)
+    # run(False)
     # 多进程 + 协程
-    # run(True)
+    run(True)
