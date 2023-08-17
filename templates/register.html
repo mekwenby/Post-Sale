@@ -41,8 +41,8 @@
                         <label for="problem_type">问题类型:</label>
                         <select class="form-control select2" id="problem_type" name="problem_type" required>
                             <option value="">请选择问题类型</option>
-                            <option value="问题咨询">问题咨询</option>
-                            <option value="使用帮助">使用帮助</option>
+                            <option value="问题咨询">问题反馈</option>
+                            <option value="使用帮助">使用咨询</option>
                             <option value="意见建议">意见建议</option>
                             <option value="意见建议">其他</option>
                             <!-- 添加其他选项，可以根据需要在这里提供更多选项 -->
@@ -104,7 +104,7 @@
          $(document).ready(function () {
             $('#problem_type').select2({
                 width: '100%', // Adjust the width as needed
-                placeholder: '请选择功能模块',
+                placeholder: '请选择问题类型',
                 allowClear: true, // Allow clearing the selection
                 tags: true, // Allow adding new tags (if needed)
             });

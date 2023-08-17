@@ -31,7 +31,7 @@
                                     <label for="assign">指派: </label>
                                     <select class="form-control" id="assign" name="assign">
                                         <option value="{{ user.name }}">{{ user.name }}</option>
-                                        {% for manege in manege_list %}
+                                        {% for manege in manage_list %}
                                             <option value="{{ manege.name }}">{{ manege.name }}</option>
                                         {% endfor %}
 
