@@ -103,7 +103,7 @@ def hello_uid(uid=None):
     user = api.get_user(uid, bm)
     user.u_token = mytools.get_u_token(uid)
     user.save()
-    response = make_response(render_template('New_Base_index.html', user=user))
+    response = make_response(redirect("/"))
     response.set_cookie('u_token', user.u_token)
     return response
 
@@ -195,6 +195,7 @@ def upload_test():
     up_name = request.form.get('up_name')
     if up_name is None:
         up_name = 'Infinite'
+    print("upname:", up_name)
 
     def is_allowed_file(filename):
         return '.' in filename and filename.rsplit('.', 1)[1].lower() in ['png', 'jpg', 'jpeg', 'zip', 'rar', 'pdf',
@@ -276,6 +277,22 @@ def support():
 @app.route('/test')
 def test__():
     return render_template('New_Base.html')
+
+
+@app.route('/del/<id_>')
+def del_file(id_):
+    file = api.get_file_infos(id_)
+    mode = request.args.get('mode')
+    upname = request.args.get('name')
+    if upname is not None:
+        print(f"{upname}删除了文件 {file.filename}")
+        api.del_file(id_)
+    if mode == 'user':
+        api.add_problem_message(rid=file.rid, uid=upname, text=f"已删除文件 {file.filename}")
+        return redirect(f'/view/{file.rid}')
+    else:
+        api.add_problem_Smessage(rid=file.rid, uid=upname, text=f"已删除文件 {file.filename}")
+        return redirect(f'/S/view/{file.rid}')
 
 
 if __name__ == '__main__':

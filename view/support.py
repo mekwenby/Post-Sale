@@ -188,3 +188,5 @@ def dashboard():
         return render_template('S_Dashboard.html', title='Dashboard', data=data)
     else:
         return redirect('/S')
+
+

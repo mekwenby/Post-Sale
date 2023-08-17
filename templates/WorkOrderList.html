@@ -28,9 +28,9 @@
                             {{ processing(p.solve) }}
                         </td>
                     {% endif %}
-                    <td style="width: 190px;font-size: 14px;">{{ p.rid }}</td>
+                    <td style="width: 90px;font-size: 14px;">{{ p.rid[0:4] }}{{ p.rid[-6:-1] }}</td>
                     <td>{{ p.project_name }}</td>
-                    <td>{{ p.user_name }}</td>
+                    <td>{{ p.establish_id }}</td>
                     <td style="width: 170px">{{ p.generate_time|time_ftm }}</td>
                     <td>{{ p.module }}</td>
                     {# 工单最后一条信息的回复人 #}

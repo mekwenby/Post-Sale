@@ -1,4 +1,4 @@
-{% macro filemanagement(p_list,user) %}
+{% macro filemanagement(p_list,upname,mode) %}
     <div class="modal fade docs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
          aria-hidden="true" id="filemanagement">
         <div class="modal-dialog modal-lg">
@@ -11,6 +11,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
+
                     <table class="table">
                         <thead>
                         <tr>
@@ -18,6 +19,7 @@
                             <th scope="col">上传者</th>
                             <th scope="col">上传时间</th>
                             <th scope="col">下载</th>
+                            <th scope="col">删除</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -27,6 +29,7 @@
                                 <td>{{ file.up_name }}</td>
                                 <td>{{ file.up_time|time_ftm }}</td>
                                 <td><a href="/static/upload/{{ file.rid }}/{{ file.filename }}">下载</a></td>
+                                <td><a href="/del/{{ file.id }}?mode={{ mode }}&name={{ upname }}">删除</a></td>
                             </tr>
 
                         {% endfor %}
@@ -40,7 +43,7 @@
                             </div>
                         </div>
                         <input type="hidden" name="hidden_rid" value="{{ rid }}" id="rid">
-                        <input type="hidden" name="up_name" value="{{ user.name }}" id="up_name">
+                        <input type="hidden" name="up_name" value="{{ upname }}" id="up_name">
                         <input type="file" id="file-input" style="display: none;">
                     </div>
                 </div>

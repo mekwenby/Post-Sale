@@ -79,51 +79,51 @@
                             <div class="chat-container" id="chat-box-cont" style="height: 380px; overflow-y: auto;">
                                 <div id="chat-box" class="xl-12">
                                     <!-- Messages will be displayed here -->
-                                    <div class="alert mb-2 alert-primary">{{ p.generate_time|time_ftm }}&emsp;System:
-                                        <br>
+                                    <div class="alert mb-4 alert-primary">
+                                        <h6>{{ p.generate_time|time_ftm }}&emsp;{{ p.establish_id }}:</h6>
                                         {{ p.text|text_br|safe }}
                                     </div>
                                     {% if p.Message|length > 0 %}
                                         {% for m in p.Message %}
                                             {% if m.type == 'text' %} {# 处理文本消息 #}
                                                 {% if m.source == 'user' %}
-                                                    <div class="alert mb-2 alert-primary">
-                                                        {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
-                                                        <br>
+                                                    <div class="alert mb-4 alert-primary">
+                                                        <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
                                                         {{ m.text|text_br|safe }}
                                                     </div>
                                                 {% else %}
-                                                    <div class="alert mb-2 receiver-message">
-                                                        {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
-                                                        <br>
+                                                    <div class="alert mb-4 receiver-message">
+                                                        <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
                                                         {{ m.text|text_br|safe }}
                                                     </div>
                                                 {% endif %}
                                             {% elif m.type == 'img' %} {# 处理图片 #}
                                                 {% if m.source == 'user' %}
-                                                    <div class="alert mb-2 alert-primary"
+                                                    <div class="alert mb-4 alert-primary"
                                                          onclick="window.open('/static/upload/{{ p.rid }}/{{ m.text }}')">
+                                                        <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
                                                         <img
                                                                 src="/static/upload/{{ p.rid }}/{{ m.text }}"
                                                                 class="image-message" alt="图片丢失">
                                                     </div>
                                                 {% else %}
-                                                    <div class="alert mb-2 receiver-message"><img
-                                                            src="/static/upload/{{ p.rid }}/{{ m.text }}"
-                                                            class="image-message" alt="图片丢失">
+                                                    <div class="alert mb-2 receiver-message"
+                                                         onclick="window.open('/static/upload/{{ p.rid }}/{{ m.text }}')">
+                                                        <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
+                                                        <img
+                                                                src="/static/upload/{{ p.rid }}/{{ m.text }}"
+                                                                class="image-message" alt="图片丢失">
                                                     </div>
                                                 {% endif %}
                                             {% elif m.type == 'file' %}
                                                 {% if m.source == 'user' %}
                                                     <div class="alert mb-2 alert-primary">
-                                                        {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
-                                                        <br>
+                                                        <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
                                                         {{ m.text|text_br|safe }}
                                                     </div>
                                                 {% else %}
                                                     <div class="alert mb-2 receiver-message">
-                                                        {{ m.up_time|time_ftm }}&emsp;{{ m.author }}:
-                                                        <br>
+                                                        <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
                                                         {{ m.text|text_br|safe }}
                                                     </div>
                                                 {% endif %}
@@ -168,7 +168,7 @@
     {% from 'expand/rinfo.html' import rinfo %}
     {{ rinfo(p) }}
     {% from 'expand/filemanagement.html' import filemanagement %}
-    {{ filemanagement(p_list,user) }}
+    {{ filemanagement(p_list,user.uid,"user") }}
 
 {% endblock %}
 

@@ -267,3 +267,11 @@ def get_manage_p_list(uid):
 
     # return [len(待处理), len(处理中), len(待回复), len(已完成)]
     return [待回复, 我的待处理, 待处理, 处理中, 今日, 总数, 今日完成]
+
+
+def get_file_infos(id_):
+    return ProblemAtt.get_or_none(id=id_)
+
+
+def del_file(id_):
+    ProblemAtt.delete_by_id(id_)
