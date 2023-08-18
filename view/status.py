@@ -2,7 +2,6 @@ import datetime
 
 from flask import Blueprint, request, redirect, jsonify
 import database.api as api
-import mytools
 
 bp = Blueprint('status', __name__)
 """

@@ -7,6 +7,7 @@ import mytools
 from database import api
 from view.support import bp as support_view
 from view.status import bp as status_view
+from view.interface import bp as interface_view
 
 app = Flask(__name__)
 bootstrap = Bootstrap4(app=app)
@@ -16,6 +17,7 @@ app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 
 app.register_blueprint(support_view, url_prefix='/S')
 app.register_blueprint(status_view, url_prefix='/status')
+app.register_blueprint(interface_view, url_prefix='/interface')
 
 
 @app.before_request

@@ -1,4 +1,7 @@
-from flask import Blueprint, render_template, request, g, redirect, make_response
+import os
+import re
+
+from flask import Blueprint, render_template, request, g, redirect, make_response, jsonify
 import database.api as api
 import mytools
 
@@ -190,3 +193,13 @@ def dashboard():
         return redirect('/S')
 
 
+@bp.route('/File')
+def File():
+    def extract_number(filename):
+        match = re.search(r'\d+', filename)
+        return int(match.group()) if match else 0
+
+    file_list = os.listdir('static/File_Library')
+    sorted_files = sorted(file_list, key=extract_number)
+    print(sorted_files)
+    return render_template('expand/File.html', sorted_files=sorted_files)
