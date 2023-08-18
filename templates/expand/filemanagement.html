@@ -29,7 +29,10 @@
                                 <td>{{ file.up_name }}</td>
                                 <td>{{ file.up_time|time_ftm }}</td>
                                 <td><a href="/static/upload/{{ file.rid }}/{{ file.filename }}">下载</a></td>
-                                <td><a href="/del/{{ file.id }}?mode={{ mode }}&name={{ upname }}">删除</a></td>
+                                {% if upname == file.up_name %}
+                                    <td><a href="/del/{{ file.id }}?mode={{ mode }}&name={{ upname }}">删除</a></td>
+                                {% endif %}
+
                             </tr>
 
                         {% endfor %}
