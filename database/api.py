@@ -239,10 +239,10 @@ def add_manage(name, passwd):
 
 
 def get_user_p_list(uid):
-    待处理 = Problem.select().where(Problem.user_name.contains(uid) & Problem.solve.contains("待处理")).count()
-    处理中 = Problem.select().where(Problem.user_name.contains(uid) & Problem.solve.contains("处理中")).count()
-    待回复 = Problem.select().where(Problem.user_name.contains(uid) & Problem.solve.contains("待回复")).count()
-    已完成 = Problem.select().where(Problem.user_name.contains(uid) & Problem.solve.contains("已完成")).count()
+    待处理 = Problem.select().where(Problem.establish_id.contains(uid) & Problem.solve.contains("待处理")).count()
+    处理中 = Problem.select().where(Problem.establish_id.contains(uid) & Problem.solve.contains("处理中")).count()
+    待回复 = Problem.select().where(Problem.establish_id.contains(uid) & Problem.solve.contains("待回复")).count()
+    已完成 = Problem.select().where(Problem.establish_id.contains(uid) & Problem.solve.contains("已完成")).count()
     # return [len(待处理), len(处理中), len(待回复), len(已完成)]
     return [待回复, 待处理, 处理中, 已完成]
 
@@ -274,4 +274,11 @@ def get_file_infos(id_):
 
 
 def del_file(id_):
+    file = get_file_infos(id_)
+    print(file.filename, file.rid)
+    msg = ProblemMessage.delete().where((ProblemMessage.type == 'img') &
+                                        (ProblemMessage.problem_id == get_problem(
+                                            file.rid)) & (ProblemMessage.text == file.filename))
+    msg.execute()
+
     ProblemAtt.delete_by_id(id_)
