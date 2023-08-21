@@ -203,3 +203,60 @@ def File():
     sorted_files = sorted(file_list, key=extract_number)
     print(sorted_files)
     return render_template('expand/File.html', sorted_files=sorted_files)
+
+
+@bp.route('/Manage_File')
+def manage_file():
+    def extract_number(filename):
+        match = re.search(r'\d+', filename)
+        return int(match.group()) if match else 0
+
+    m_token = request.cookies.get('m_token')
+    user = api.form_token_get_manege(m_token)
+    if user is not None and user.name == '超管':
+        file_list = os.listdir('static/File_Library')
+        sorted_files = sorted(file_list, key=extract_number)
+        print(sorted_files)
+        return render_template('expand/ManageFile.html', sorted_files=sorted_files, user=user)
+    elif user is not None and user.name != '超管':
+        return render_template('S_Remind.html', msg='权限不足')
+    else:
+        return redirect('/S')
+
+
+@bp.route('/upload', methods=['POST'])
+def upload_file():
+    m_token = request.cookies.get('m_token')
+    user = api.form_token_get_manege(m_token)
+    if user is not None:
+        if 'file' not in request.files:
+            return "没有文件"
+
+        file = request.files['file']
+
+        if file.filename == '':
+            return "上传文件出错了"
+
+        # 在这里可以定义保存上传文件的路径
+        save_path = os.path.join('static', 'File_Library')
+        file.save(os.path.join(save_path, file.filename))  # 保存文件
+
+        return redirect("/S/Manage_File")
+    else:
+        return redirect('/S')
+
+
+@bp.route('/del_file/<file_name>')
+def del_file(file_name):
+    m_token = request.cookies.get('m_token')
+    user = api.form_token_get_manege(m_token)
+    if user is not None and user.name == '超管':
+        path = os.path.join('static', 'File_Library')
+        file_path = os.path.join(path, file_name)
+        if os.path.exists(file_path):
+            os.remove(file_path)
+
+        return redirect('/S/Manage_File')
+
+    else:
+        return redirect('/S')
