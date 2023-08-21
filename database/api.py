@@ -19,12 +19,15 @@ def problem_init_message(rid):
         file_list = os.listdir(file_path)
     except:
         file_list = []
+
+    p = Problem.get(rid=rid)
+
     for file in file_list:
         if os.path.splitext(file)[-1] in ['.png', '.jpg', '.jpeg', '.webp']:  # 是图片
-            ProblemMessage.create(problem=Problem.get(rid=rid), text=file, type='img')
+            ProblemMessage.create(problem=p, text=file, type='img', author=p.establish_id)
 
         else:  # 不是图片
-            ProblemMessage.create(problem=Problem.get(rid=rid), text=f'已上传附件 {file}', type='file')
+            ProblemMessage.create(problem=p, text=f'已上传附件 {file}', type='file', author=p.establish_id)
 
 
 def upload_att_message(rid, file, up_name):
@@ -116,7 +119,7 @@ def get_user(uid, bm):
     user = User.get_or_none(uid=uid)
     if user is not None:  # 用户存在
 
-        if user.department != bm:  # 部门有变动时
+        if user.department != bm and bm != '默认':  # 部门有变动时
             user.department = bm
             user.save()
 
