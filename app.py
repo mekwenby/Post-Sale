@@ -233,7 +233,10 @@ def Message():
     text = request.form.get('text')
 
     # print(f'rid:{rid}  uid:{uid}  text:{text}')
-    state = api.add_problem_message(rid=rid, uid=uid, text=text)
+    if len(text) > 0:
+        state = api.add_problem_message(rid=rid, uid=uid, text=text)
+    else:
+        state = True
     response_data = {"success": state}
     return jsonify(response_data)
 
@@ -247,7 +250,10 @@ def SMessage():
     text = request.form.get('text')
 
     # print(f'rid:{rid}  uid:{uid}  text:{text}')
-    state = api.add_problem_Smessage(rid=rid, uid=uid, text=text)
+    if len(text) > 0:
+        state = api.add_problem_Smessage(rid=rid, uid=uid, text=text)
+    else:
+        state = True
     response_data = {"success": state}
     return jsonify(response_data)
 
