@@ -207,13 +207,15 @@ def File():
 
 @bp.route('/Manage_File')
 def manage_file():
-    def extract_number(filename):
+    """资料库管理页面"""
+
+    def extract_number(filename):  # 列表排序函数
         match = re.search(r'\d+', filename)
         return int(match.group()) if match else 0
 
     m_token = request.cookies.get('m_token')
     user = api.form_token_get_manege(m_token)
-    if user is not None and user.name == '超管':
+    if user is not None and user.name == '超管':  # 只允许超管管理文件
         file_list = os.listdir('static/File_Library')
         sorted_files = sorted(file_list, key=extract_number)
         print(sorted_files)
@@ -226,6 +228,7 @@ def manage_file():
 
 @bp.route('/upload', methods=['POST'])
 def upload_file():
+    """资料库文件上传"""
     m_token = request.cookies.get('m_token')
     user = api.form_token_get_manege(m_token)
     if user is not None:
@@ -248,12 +251,13 @@ def upload_file():
 
 @bp.route('/del_file/<file_name>')
 def del_file(file_name):
+    """资料库文件删除"""
     m_token = request.cookies.get('m_token')
     user = api.form_token_get_manege(m_token)
-    if user is not None and user.name == '超管':
-        path = os.path.join('static', 'File_Library')
-        file_path = os.path.join(path, file_name)
-        if os.path.exists(file_path):
+    if user is not None and user.name == '超管':  # 身份权限验证
+        path = os.path.join('static', 'File_Library')  # 文件目录路径
+        file_path = os.path.join(path, file_name)  # 文件路径
+        if os.path.exists(file_path):  # 文件存在时执行删除
             os.remove(file_path)
 
         return redirect('/S/Manage_File')

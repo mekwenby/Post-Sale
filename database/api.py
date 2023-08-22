@@ -124,7 +124,7 @@ def get_user(uid, bm):
             user.save()
 
         return user
-    else:  # 用户不存在
+    else:  # 用户不存在时就创建
         user = User.create(uid=uid, department=bm)
         return user
 

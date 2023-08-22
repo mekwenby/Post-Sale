@@ -98,9 +98,9 @@ def hello_world():
 @app.route('/uid/<uid>')
 def hello_uid(uid=None):
     bm = request.args.get('bm')
-    if bm is None:
+    if bm is None:  # 没有传bm时,设置默认的bm值
         bm = '默认'
-    if uid is None:
+    if uid is None:  # 没有传uid时,使用默认的uid
         uid = 'Guest'
     user = api.get_user(uid, bm)
     user.u_token = mytools.get_u_token(uid)
@@ -116,7 +116,6 @@ def register():
     if request.method == 'GET':
         u_token = request.cookies.get('u_token')
         if u_token is not None:
-            # print(u_token)
             user = api.from_u_token_user(u_token)
             return render_template('register.html', rid=mytools.get_problem_id(), user=user)
         else:
@@ -289,12 +288,21 @@ def test__():
 
 @app.route('/del/<id_>')
 def del_file(id_):
+    """
+    通过附件ID删除工单附件记录
+
+    :param id_:
+    :return:
+    """
     file = api.get_file_infos(id_)
     mode = request.args.get('mode')
     upname = request.args.get('name')
+    # upname 有效时删除文件记录
     if upname is not None:
         print(f"{upname}删除了文件 {file.filename}")
         api.del_file(id_)
+
+    # 跳转回工单页面
     if mode == 'user':
         api.add_problem_message(rid=file.rid, uid=upname, text=f"已删除文件 {file.filename}")
         return redirect(f'/view/{file.rid}')
