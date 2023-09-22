@@ -260,7 +260,7 @@ def get_manage_p_list(uid):
     now_unix = int(unix_timestamp)
 
     待回复 = Problem.select().where(Problem.solve.contains("待回复")).count()
-    待处理 = Problem.select().where(Problem.solve != "已完成").count()
+    待处理 = Problem.select().where(Problem.solve == "待处理").count()
     我的待处理 = Problem.select().where(
         Problem.solve_name.contains(uid) & Problem.submit == True).count()
     处理中 = Problem.select().where(Problem.solve.contains("处理中")).count()
