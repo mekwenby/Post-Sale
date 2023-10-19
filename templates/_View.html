@@ -99,24 +99,22 @@
                                                 {% endif %}
                                             {% elif m.type == 'img' %} {# 处理图片 #}
                                                 {% if m.source == 'user' %}
-                                                    <div class="alert mb-4 alert-primary"
-                                                         data-toggle="modal"
-                                                         data-target="#imageModal"
-                                                         data-img-src="/static/upload/{{ p.rid }}/{{ m.text }}">
+                                                    <div class="alert mb-4 alert-primary">
                                                         <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
-                                                        <img
-                                                                src="/static/upload/{{ p.rid }}/{{ m.text }}"
-                                                                class="image-message" alt="图片丢失">
+                                                        <a href="/static/upload/{{ p.rid }}/{{ m.text }}"
+                                                           data-lightbox="image-group">
+                                                            <img src="/static/upload/{{ p.rid }}/{{ m.text }}"
+                                                                 class="image-message" alt="图片丢失">
+                                                        </a>
                                                     </div>
                                                 {% else %}
-                                                    <div class="alert mb-2 receiver-message"
-                                                         data-toggle="modal"
-                                                         data-target="#imageModal"
-                                                         data-img-src="/static/upload/{{ p.rid }}/{{ m.text }}">
+                                                    <div class="alert mb-2 receiver-message">
                                                         <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
-                                                        <img
-                                                                src="/static/upload/{{ p.rid }}/{{ m.text }}"
-                                                                class="image-message" alt="图片丢失">
+                                                        <a href="/static/upload/{{ p.rid }}/{{ m.text }}"
+                                                           data-lightbox="image-group">
+                                                            <img src="/static/upload/{{ p.rid }}/{{ m.text }}"
+                                                                 class="image-message" alt="图片丢失">
+                                                        </a>
                                                     </div>
                                                 {% endif %}
                                             {% elif m.type == 'file' %}
