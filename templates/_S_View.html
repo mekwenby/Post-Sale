@@ -37,72 +37,91 @@
 {% block body %}
     <div class="row">
     <div class="container">
-    {# 功能模块 #}
-    <div class="row" style="justify-content: center;">
-        <!-- Chat Box 1 聊天框 -->
-        <div class="col-xl-12">
-            <div class="card">
-                <div class="card-header">
-                    消息列表
+
+        {# 图片模态框 #}
+        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-body text-center">
+                        <img id="modalImage" class="img-fluid" style="max-width: 100%; max-height: 100vh" alt="图片">
+                    </div>
+                    &emsp;&emsp;如果图片过大显示不清晰,可以右键在新标签中打开
                 </div>
-                <div class="card-body">
-                    <div class="chat-container" id="chat-box-cont" style="height: 450px; overflow-y: auto;">
-                        <div id="chat-box" class="xl-12">
-                            <!-- Messages will be displayed here -->
-                            <div class="alert mb-4 alert-primary">
-                                <h6>{{ p.generate_time|time_ftm }}&emsp;{{ p.establish_id }}:</h6>
-                                {{ p.text|text_br|safe }}
-                            </div>
-                            {% if p.Message|length > 0 %}
-                                {% for m in p.Message %}
-                                    {% if m.type == 'text' %} {# 处理文本消息 #}
-                                        {% if m.source == 'user' %}
-                                            <div class="alert mb-4 alert-primary">
-                                                <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
-                                                {{ m.text|text_br|safe }}
-                                            </div>
-                                        {% else %}
-                                            <div class="alert mb-4 receiver-message">
-                                                <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
-                                                {{ m.text|text_br|safe }}
-                                            </div>
-                                        {% endif %}
-                                    {% elif m.type == 'img' %} {# 处理图片 #}
-                                        {% if m.source == 'user' %}
-                                            <div class="alert mb-4 alert-primary"
-                                                 onclick="window.open('/static/upload/{{ p.rid }}/{{ m.text }}')">
+            </div>
+        </div>
+
+
+        {# 功能模块 #}
+        <div class="row" style="justify-content: center;">
+            <!-- Chat Box 1 聊天框 -->
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-header">
+                        消息列表
+                    </div>
+                    <div class="card-body">
+                        <div class="chat-container" id="chat-box-cont" style="height: 450px; overflow-y: auto;">
+                            <div id="chat-box" class="xl-12">
+                                <!-- Messages will be displayed here -->
+                                <div class="alert mb-4 alert-primary">
+                                    <h6>{{ p.generate_time|time_ftm }}&emsp;{{ p.establish_id }}:</h6>
+                                    {{ p.text|text_br|safe }}
+                                </div>
+                                {% if p.Message|length > 0 %}
+                                    {% for m in p.Message %}
+                                        {% if m.type == 'text' %} {# 处理文本消息 #}
+                                            {% if m.source == 'user' %}
+                                                <div class="alert mb-4 alert-primary">
+                                                    <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
+                                                    {{ m.text|text_br|safe }}
+                                                </div>
+                                            {% else %}
+                                                <div class="alert mb-4 receiver-message">
+                                                    <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
+                                                    {{ m.text|text_br|safe }}
+                                                </div>
+                                            {% endif %}
+                                        {% elif m.type == 'img' %} {# 处理图片 #}
+                                            {% if m.source == 'user' %}
+                                                <div class="alert mb-4 alert-primary"
+                                                     data-toggle="modal"
+                                                     data-target="#imageModal"
+                                                     data-img-src="/static/upload/{{ p.rid }}/{{ m.text }}">
+                                                    <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
+                                                    <img src="/static/upload/{{ p.rid }}/{{ m.text }}"
+                                                         class="image-message"
+                                                         alt="图片丢失">
+                                                </div>
+                                            {% else %}
+                                                <div class="alert mb-2 receiver-message"
+                                                     data-toggle="modal"
+                                                     data-target="#imageModal"
+                                                     data-img-src="/static/upload/{{ p.rid }}/{{ m.text }}">
                                                 <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
                                                 <img
                                                         src="/static/upload/{{ p.rid }}/{{ m.text }}"
                                                         class="image-message" alt="图片丢失">
-                                            </div>
-                                        {% else %}
-                                            <div class="alert mb-2 receiver-message"
-                                                 onclick="window.open('/static/upload/{{ p.rid }}/{{ m.text }}')">
-                                                <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
-                                                <img
-                                                        src="/static/upload/{{ p.rid }}/{{ m.text }}"
-                                                        class="image-message" alt="图片丢失">
-                                            </div>
+                                                </div>
+                                            {% endif %}
+                                        {% elif m.type == 'file' %}
+                                            {% if m.source == 'user' %}
+                                                <div class="alert mb-2 alert-primary">
+                                                    <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
+                                                    {{ m.text|text_br|safe }}
+                                                </div>
+                                            {% else %}
+                                                <div class="alert mb-2 receiver-message">
+                                                    <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
+                                                    {{ m.text|text_br|safe }}
+                                                </div>
+                                            {% endif %}
                                         {% endif %}
-                                    {% elif m.type == 'file' %}
-                                        {% if m.source == 'user' %}
-                                            <div class="alert mb-2 alert-primary">
-                                                <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
-                                                {{ m.text|text_br|safe }}
-                                            </div>
-                                        {% else %}
-                                            <div class="alert mb-2 receiver-message">
-                                                <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
-                                                {{ m.text|text_br|safe }}
-                                            </div>
-                                        {% endif %}
-                                    {% endif %}
 
-                                {% endfor %}
+                                    {% endfor %}
 
 
-                            {% endif %}
+                                {% endif %}
 
                         </div>
                     </div>
@@ -259,4 +278,16 @@
             }, 2000); // 等待2秒（2000毫秒）
         });
     </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#imageModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var imgSrc = button.data('img-src');
+                var modal = $(this);
+                modal.find('#modalImage').attr('src', imgSrc);
+            });
+        });
+    </script>
+
 {% endblock %}

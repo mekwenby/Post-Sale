@@ -100,7 +100,9 @@
                                             {% elif m.type == 'img' %} {# 处理图片 #}
                                                 {% if m.source == 'user' %}
                                                     <div class="alert mb-4 alert-primary"
-                                                         onclick="window.open('/static/upload/{{ p.rid }}/{{ m.text }}')">
+                                                         data-toggle="modal"
+                                                         data-target="#imageModal"
+                                                         data-img-src="/static/upload/{{ p.rid }}/{{ m.text }}">
                                                         <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
                                                         <img
                                                                 src="/static/upload/{{ p.rid }}/{{ m.text }}"
@@ -108,7 +110,9 @@
                                                     </div>
                                                 {% else %}
                                                     <div class="alert mb-2 receiver-message"
-                                                         onclick="window.open('/static/upload/{{ p.rid }}/{{ m.text }}')">
+                                                         data-toggle="modal"
+                                                         data-target="#imageModal"
+                                                         data-img-src="/static/upload/{{ p.rid }}/{{ m.text }}">
                                                         <h6>{{ m.up_time|time_ftm }}&emsp;{{ m.author }}:</h6>
                                                         <img
                                                                 src="/static/upload/{{ p.rid }}/{{ m.text }}"
@@ -162,6 +166,19 @@
             </div>
         </div>
 
+    </div>
+
+    {# 图片模态框 #}
+    <div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <img id="modalImage" class="img-fluid" style="max-width: 100%; max-height: 100vh" alt="图片">
+                </div>
+                &emsp;&emsp;如果图片过大显示不清晰,可以右键在新标签中打开
+            </div>
+        </div>
     </div>
 
 
@@ -236,6 +253,17 @@
                 // ...
 
             }, 2000); // 等待2秒（2000毫秒）
+        });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            $('#imageModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget);
+                var imgSrc = button.data('img-src');
+                var modal = $(this);
+                modal.find('#modalImage').attr('src', imgSrc);
+            });
         });
     </script>
 {% endblock %}
