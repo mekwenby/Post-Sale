@@ -58,11 +58,12 @@ def save_problem(rid, project_name, user_name, module, ptype, text, uid):
     :param uid:
     :return:
     """
-    Problem.create(rid=rid, project_name=project_name, user_name=user_name, ptype=ptype, text=text, module=module,
-                   establish_id=uid)
-    # 通过协程初始化图文消息
-    t1 = Thread(target=problem_init_message, args=(rid,))
-    t1.run()
+    if Problem.get_or_none(rid=rid) is None:  # 该工单号不存在时创建
+        Problem.create(rid=rid, project_name=project_name, user_name=user_name, ptype=ptype, text=text, module=module,
+                       establish_id=uid)
+        # 通过协程初始化图文消息
+        t1 = Thread(target=problem_init_message, args=(rid,))
+        t1.run()
 
 
 def get_all_problem():
