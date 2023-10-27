@@ -75,7 +75,7 @@ def my_processing():
     if m_token is not None:
         manage = api.form_token_get_manege(m_token)
         if manage is not None:
-            return render_template('S_ALL.html', plist=api.get_manage_processing_problem(manage.name), tite='我的待处理')
+            return render_template('S_ALL.html', plist=api.get_manage_processing_problem(manage.name), tite='指派我的')
         else:
             return redirect('/S')
     else:
@@ -262,5 +262,28 @@ def del_file(file_name):
 
         return redirect('/S/Manage_File')
 
+    else:
+        return redirect('/S')
+
+
+@bp.route("/classification/<N>")
+def classification(N):
+    """
+    仪表板跳转: C 待回复    V 待处理   B 处理中   N 已完成
+    """
+    # 定义标题
+    title = ''
+    if N == 'C':
+        title = "待回复"
+    elif N == 'V':
+        title = "待处理"
+    elif N == 'B':
+        title = "处理中"
+    elif N == 'N':
+        title = "已完成"
+
+    m_token = request.cookies.get('m_token')
+    if m_token is not None:
+        return render_template('S_ALL.html', plist=api.get_classification_problem(N), tite=title)
     else:
         return redirect('/S')

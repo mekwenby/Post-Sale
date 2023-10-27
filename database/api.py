@@ -82,6 +82,27 @@ def get_allprocessing_problem():
     return [p for p in Problem.select().where(Problem.submit == True).order_by(Problem.generate_time.desc())]
 
 
+def get_classification_problem(mode):
+    """
+    工单状态选择工单
+    C 待回复    V 待处理   B 处理中   N 已完成
+    """
+    if mode == 'C':
+        return list(Problem.select().where((Problem.solve == "待回复") & (Problem.submit == True)).order_by(
+            Problem.generate_time.desc()))
+    elif mode == 'V':
+        return list(Problem.select().where((Problem.solve == "待处理") & (Problem.submit == True)).order_by(
+            Problem.generate_time.desc()))
+    elif mode == 'B':
+        return list(Problem.select().where((Problem.solve == "处理中") & (Problem.submit == True)).order_by(
+            Problem.generate_time.desc()))
+    elif mode == 'N':
+        return list(Problem.select().where((Problem.solve == "已完成") & (Problem.submit == False)).order_by(
+            Problem.generate_time.desc()))
+    else:
+        return []
+
+
 def get_manage_processing_problem(name):
     """
     获取指定manage待处理工单
